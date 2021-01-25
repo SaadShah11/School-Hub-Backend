@@ -18,7 +18,7 @@ const createPost = async (req, res, next) => {
         userID: req.body.userID,
         username: req.body.username,
         text: req.body.text,
-        image: req.body.path,
+        image: req.body.image,
         likes: req.body.likes,
         time: req.body.time,
         //no comment at start
