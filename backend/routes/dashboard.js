@@ -7,7 +7,8 @@ const router = express.Router();
 
 router.get('/home', dashboard.getPosts)
 
-router.post('/post', file_upload.single('image'), dashboard.createPost)//, dashboard.createPost)
+//router.post('/post', file_upload.single('image'), dashboard.createPost)//, dashboard.createPost)
+router.post('/post', dashboard.createPost)//, dashboard.createPost)
 
 router.get('/signup', (req, res, next) => {
 
