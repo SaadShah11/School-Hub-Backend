@@ -29,7 +29,7 @@ const createPost = async (req, res, next) => {
         await createdPost.save();
     } catch (err) {
         const error = new HttpError(
-            'Signing up failed, please try again later.',
+            'Post failed, please try again later.',
             500
         );
         return next(error);

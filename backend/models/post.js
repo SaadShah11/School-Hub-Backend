@@ -11,7 +11,7 @@ const postSchema = new mongoose.Schema({
     time: { type: String, required:false },
     comments: [{
         username: { type: String, required: true },
-        text: { String, required: false }
+        text: { type: String, required: false }
     }]
 })
 
