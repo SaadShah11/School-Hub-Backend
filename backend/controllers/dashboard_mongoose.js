@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 
 const Post = require('../models/post');
 const HttpError = require('../models/http-error');
+const { json } = require('body-parser');
 
 mongoose.connect(
     'mongodb+srv://saad:saad@schoolhub.zmtqr.mongodb.net/dashboard?retryWrites=true&w=majority'
@@ -22,11 +23,12 @@ const createPost = async (req, res, next) => {
         likes: req.body.likes,
         time: req.body.time,
         //no comment at start
-        comments: []
+        comments: req.body.comments
     })
 
     try {
         await createdPost.save();
+        res.status(200).send()
     } catch (err) {
         const error = new HttpError(
             'Post failed, please try again later.',
@@ -42,11 +44,51 @@ const createPost = async (req, res, next) => {
 
 const getPosts = async (req, res, next) => {
     const post = await Post.find().exec(); //Converting this into a promise using .exec()
-    res.json(post);
+    res.status(200).send(JSON.stringify(post))
+    //res.json(post);
+}
+
+const addComments = async (req, res, next) => {
+    var newComment = req.body.comments;
+    const postId = req.params.pid;
+
+    let post;
+    try {
+        post = await Post.findById(postId);
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not update place.',
+            500
+        );
+        return next(error);
+    }
+
+    let allComments = post.comments;
+    console.log(allComments)
+
+    console.log('Break')
+    //post.comments = allComments.push(newComment)
+    //post.comments = newComment;
+    post.comments.push(newComment)
+    console.log(post.comments)
+
+    try {
+        await post.save();
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not update post.',
+            500
+        );
+        return next(error);
+    }
+
+    res.status(200).json(post);
+
 }
 
 exports.createPost = createPost;
 exports.getPosts = getPosts;
+exports.addComment = addComments;
 
 /*
 Sample Data

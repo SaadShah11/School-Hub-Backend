@@ -10,10 +10,6 @@ router.get('/home', dashboard.getPosts)
 //router.post('/post', file_upload.single('image'), dashboard.createPost)//, dashboard.createPost)
 router.post('/post', dashboard.createPost)//, dashboard.createPost)
 
-router.get('/signup', (req, res, next) => {
-
-}) 
-
-router.post('/signup')//, userManagement.createUser)
+router.patch('/:pid', dashboard.addComment)
 
 module.exports = router;
