@@ -49,7 +49,9 @@ const getPosts = async (req, res, next) => {
 }
 
 const addComments = async (req, res, next) => {
-    var newComment = req.body.comments;
+    let newComment = req.body.comments;
+    let newLikes = req.body.likes; 
+
     const postId = req.params.pid;
 
     let post;
@@ -70,6 +72,7 @@ const addComments = async (req, res, next) => {
     //post.comments = allComments.push(newComment)
     //post.comments = newComment;
     post.comments.push(newComment)
+    post.likes = newLikes
     console.log(post.comments)
 
     try {
