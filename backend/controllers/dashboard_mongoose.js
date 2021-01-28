@@ -50,7 +50,7 @@ const getPosts = async (req, res, next) => {
 
 const addComments = async (req, res, next) => {
     let newComment = req.body.comments;
-    let newLikes = req.body.likes; 
+    let newLikes = req.body.likes;
 
     const postId = req.params.pid;
 
@@ -66,16 +66,21 @@ const addComments = async (req, res, next) => {
     }
 
     let allComments = post.comments;
-    
-    console.log(newLikes)
-    console.log('Break')
+
+    //console.log(newLikes)
+    //console.log('Break')
     //post.comments = allComments.push(newComment)
     //post.comments = newComment;
-    post.comments.push(newComment)
+    if (newComment != null) {
+        post.comments.push(newComment)
+    }
 
-    newLikes = post.likes + newLikes
-    post.likes = newLikes
-    console.log(post.comments)
+    if (newLikes != null) {
+        newLikes = post.likes + newLikes
+        post.likes = newLikes
+    }
+
+    //console.log(post.comments)
 
     try {
         await post.save();
@@ -84,6 +89,7 @@ const addComments = async (req, res, next) => {
             'Something went wrong, could not update post.',
             500
         );
+        console.log(err)
         return next(error);
     }
 
