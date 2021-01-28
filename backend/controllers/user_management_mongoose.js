@@ -71,7 +71,7 @@ const userLogin = async (req, res, next) => {
     }
     console.log('Login Successful')
     //res.json({ message: "login successful" })
-    res.status(200).send(JSON.stringify({_id:existingUser._id}));
+    res.status(200).send(JSON.stringify({_id:existingUser._id, username: existingUser.username}));
 }
 
 exports.createUser = createUser;
