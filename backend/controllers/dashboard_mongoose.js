@@ -66,12 +66,14 @@ const addComments = async (req, res, next) => {
     }
 
     let allComments = post.comments;
-    console.log(allComments)
-
+    
+    console.log(newLikes)
     console.log('Break')
     //post.comments = allComments.push(newComment)
     //post.comments = newComment;
     post.comments.push(newComment)
+
+    newLikes = post.likes + newLikes
     post.likes = newLikes
     console.log(post.comments)
 
