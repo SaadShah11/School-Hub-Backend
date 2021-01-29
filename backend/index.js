@@ -1,15 +1,19 @@
 
 const express = require('express')
 const parser = require('body-parser')
+const cors = require('cors')
 
 const userManagementRoutes = require('./routes/user_management.js')
 const dashboardRoutes = require('./routes/dashboard.js')
+const schoolRoutes = require('./routes/school.js')
+
 
 //const shopRoutes = require('./routes/shop.js')
 
 const app = express();
 
 //app.use(parser.urlencoded({extended:true})) //This statement parses the form data and automatically uses next
+app.use(cors());
 app.use(parser.json())
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -50,6 +54,8 @@ app.post('/product',(req,res,next)=>{
 app.use('/user_management', userManagementRoutes)
 
 app.use('/dashboard', dashboardRoutes)
+
+app.use('/school', schoolRoutes)
 //When all middlewares start with same routes then we do this, only the routes starting
 //with the admin will enter this method
 //We can aslo use same routes/paths for 2 different middlewares if one is get and other is post
