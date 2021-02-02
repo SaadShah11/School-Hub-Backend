@@ -20,7 +20,7 @@ const createUser = async (req, res, next) => {
         phoneNumber: req.body.phoneNumber,
         password: req.body.password
     })
-
+/*
     let existingUser;
     try {
         existingUser = await Users.findOne({ email: email });
@@ -29,6 +29,7 @@ const createUser = async (req, res, next) => {
             'Signing up failed, please try again later.',
             500
         );
+        console.log(err)
         return next(error);
     }
 
@@ -39,7 +40,7 @@ const createUser = async (req, res, next) => {
         );
         return next(error);
     }
-
+*/
     const result = await createdUser.save();
     console.log(typeof createdUser._id)
     res.status(200)

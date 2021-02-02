@@ -1,7 +1,7 @@
 
 const express = require('express')
 const parser = require('body-parser')
-const cors = require('cors')
+//const cors = require('cors')
 
 const userManagementRoutes = require('./routes/user_management.js')
 const dashboardRoutes = require('./routes/dashboard.js')
@@ -13,7 +13,7 @@ const schoolRoutes = require('./routes/school.js')
 const app = express();
 
 //app.use(parser.urlencoded({extended:true})) //This statement parses the form data and automatically uses next
-app.use(cors());
+//app.use(cors());
 app.use(parser.json())
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');

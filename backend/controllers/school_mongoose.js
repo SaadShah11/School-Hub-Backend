@@ -14,18 +14,25 @@ mongoose.connect(
 })
 
 const createSchool = async (req, res, next) => {
-    const createdSchool = new Post({
-        //type: req.body.type,
+    const createdSchool = new School({
         adminID: req.body.adminID,
-        name: req.body.name,
-        description: req.body.description,
-        address: req.body.address,
-        images: req.body.images
+        schoolName: req.body.schoolName,
+        schoolAddress: req.body.schoolAddress,
+        contactNumber: req.body.contactNumber,
+        zipCode: req.body.zipCode,
+        aboutSchool: req.body.aboutSchool,
+        schoolType: req.body.schoolType,
+        educationLevel: req.body.educationLevel,
+        educationType: req.body.educationType,
+        schoolCoordinates: req.body.schoolCoordinates,
+        feeStructure: req.body.feeStructure,
+        images: req.body.images,
+        videos: req.body.videos
     })
 
     try {
         await createdSchool.save();
-        res.status(200).send()
+        //res.status(200).send()
     } catch (err) {
         const error = new HttpError(
             'creating school failed, please try again later.',
@@ -45,6 +52,7 @@ const getSchool = async (req, res, next) => {
     //res.json(post);
 }
 
+/*
 const editSchool = async (req, res, next) => {
 
     let newName = req.body.name;
@@ -98,10 +106,11 @@ const editSchool = async (req, res, next) => {
     res.status(200).json(post);
 
 }
+*/
 
 exports.createSchool = createSchool;
 exports.getSchool = getSchool;
-exports.editSchool = editSchool;
+//exports.editSchool = editSchool;
 
 /*
 Sample Data
