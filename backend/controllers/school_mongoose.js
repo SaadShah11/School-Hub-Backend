@@ -19,6 +19,7 @@ const createSchool = async (req, res, next) => {
         schoolName: req.body.schoolName,
         schoolAddress: req.body.schoolAddress,
         contactNumber: req.body.contactNumber,
+        schoolEmail: req.body.schoolEmail,
         zipCode: req.body.zipCode,
         aboutSchool: req.body.aboutSchool,
         schoolType: req.body.schoolType,
@@ -41,7 +42,7 @@ const createSchool = async (req, res, next) => {
         return next(error);
     }
 
-    res.status(201).json({ post: createdSchool.toObject({ getters: true }) });
+    res.status(201).json({ school: createdSchool.toObject({ getters: true }) });
     //const result = await createdPost.save();
     //res.json(result)
 };
