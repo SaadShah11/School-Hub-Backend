@@ -54,7 +54,7 @@ const getUser = async (req, res, next) => {
 }
 
 const userLogin = async (req, res, next) => {
-    const { email, password } = req.body;
+    const { type, email, password } = req.body;
 
     let existingUser;
     try {
@@ -65,14 +65,14 @@ const userLogin = async (req, res, next) => {
         return next(error)
     }
 
-    if (!existingUser || existingUser.password !== password) {
+    if (!existingUser || existingUser.password !== password || existingUser.type !== type) {
         const error = new HttpError('Wrong credentials', 401)
         res.status(401).send()
         return next(error)
     }
     console.log('Login Successful')
     //res.json({ message: "login successful" })
-    res.status(200).send(JSON.stringify({_id:existingUser._id, username: existingUser.username}));
+    res.status(200).send(JSON.stringify({_id:existingUser._id, username: existingUser.username, type:existingUser.type}));
 }
 
 exports.createUser = createUser;
