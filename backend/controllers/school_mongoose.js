@@ -39,6 +39,7 @@ const createSchool = async (req, res, next) => {
             'creating school failed, please try again later.',
             500
         );
+        console.log(err)
         return next(error);
     }
 
@@ -97,8 +98,8 @@ const editSchool = async (req, res, next) => {
         school.images.push(newImages)
     }
 
-    if (newVideos != null && len(school.videos) <= 2) {
-        school.vidoes.push(newVideos)
+    if (newVideos != null ) {
+        //school.vidoes.push(newVideos)
     }
 
 
@@ -116,7 +117,7 @@ const editSchool = async (req, res, next) => {
         return next(error);
     }
 
-    res.status(200).json(post);
+    res.status(200).json(school);
 
 }
 
