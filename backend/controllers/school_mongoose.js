@@ -48,18 +48,23 @@ const createSchool = async (req, res, next) => {
 };
 
 const getSchool = async (req, res, next) => {
-    const school = await school.find().exec(); //Converting this into a promise using .exec()
+    const school = await School.find().exec(); //Converting this into a promise using .exec()
     res.status(200).send(JSON.stringify(school))
     //res.json(post);
 }
 
-/*
+
 const editSchool = async (req, res, next) => {
 
-    let newName = req.body.name;
-    let newDecription = req.body.description;
-    let newAdderss = req.body.adders;
+    let newName = req.body.schoolName;
+    let newDecription = req.body.aboutSchool;
+    let newAdderss = req.body.schoolAddress;
+    let newContactNumber = req.body.contactNumber;
+    //let newImages = req.body.images;
+    let newZipCode = req.body.zipCode;
+    let schoolEmail = req.body.schoolEmail;
     let newImages = req.body.images;
+    let newVideos = req.body.videos
 
     const schoolId = req.params.sid;
 
@@ -81,12 +86,19 @@ const editSchool = async (req, res, next) => {
     //post.comments = allComments.push(newComment)
     //post.comments = newComment;
 
-    school.name = newName;
-    school.decription = newSescription;
-    school.address = newAddress;
+    school.schoolName = newName;
+    school.aboutSchool = newDecription;
+    school.schoolAddress = newAdderss;
+    school.contactNumber = newContactNumber;
+    school.zipCode = newZipCode;
+    school.schoolEmail = schoolEmail
 
     if (newImages != null) {
         school.images.push(newImages)
+    }
+
+    if (newVideos != null && len(school.videos) <= 2) {
+        school.vidoes.push(newVideos)
     }
 
 
@@ -107,11 +119,11 @@ const editSchool = async (req, res, next) => {
     res.status(200).json(post);
 
 }
-*/
+
 
 exports.createSchool = createSchool;
 exports.getSchool = getSchool;
-//exports.editSchool = editSchool;
+exports.editSchool = editSchool;
 
 /*
 Sample Data

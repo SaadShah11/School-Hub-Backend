@@ -27,13 +27,15 @@ const createPost = async (req, res, next) => {
     })
 
     try {
-        await createdPost.save();
+        const result = await createdPost.save();
         res.status(200).send()
+        res.json(result)
     } catch (err) {
         const error = new HttpError(
             'Post failed, please try again later.',
             500
         );
+        console.log(err)
         return next(error);
     }
 
