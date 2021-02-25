@@ -125,22 +125,3 @@ const editSchool = async (req, res, next) => {
 exports.createSchool = createSchool;
 exports.getSchool = getSchool;
 exports.editSchool = editSchool;
-
-/*
-Sample Data
-{
-    "userID": 879,
-    "username": "saad",
-    "text": null,
-    "image":"uploads/images/image.jpeg",
-    "likes":20,
-    "time": {
-        "Date":"12/06/2020",
-        "Time":"12:00 PM"
-    },
-    "comments":{
-        "username":"mubeen","text":"hello",
-    }
-}
-
-*/

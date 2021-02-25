@@ -73,11 +73,12 @@ const addComments = async (req, res, next) => {
     //console.log('Break')
     //post.comments = allComments.push(newComment)
     //post.comments = newComment;
-    if (newComment != null) {
+    if (newComment != null && newComment != undefined && newComment.text != undefined) {
         post.comments.push(newComment)
+        console.log(newComment.text)
     }
 
-    if (newLikes != null) {
+    if (newLikes != null && newLikes != undefined) {
         newLikes = post.likes + newLikes
         post.likes = newLikes
     }
