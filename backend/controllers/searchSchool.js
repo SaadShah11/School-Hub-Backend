@@ -41,6 +41,8 @@ const getSchool = async (req, res, next) => {
     let educationType = req.body.educationType
 
     const name = req.params.sName;
+    console.log(name)
+
     let re = new RegExp(name);
     var query = { schoolName: re };
     console.log(query)
@@ -49,6 +51,36 @@ const getSchool = async (req, res, next) => {
     console.log(school)
     res.status(200).send(JSON.stringify(school))
     //res.json(post);
+
 }
 
+const getAllSchool = async (req, res, next) => {
+
+    //fee={min:0,max:5}
+    let fee = req.body.fee
+    //distance={min:0,max:5}
+    let distance = req.body.distance
+    let schoolType = req.body.schoolType;
+    let educationLevel = req.body.educationLevel
+    let educationType = req.body.educationType
+
+    const name = req.params.sName;
+    console.log(name)
+    const school = await School.find().exec(); //Converting this into a promise using .exec()
+    console.log("Empty Search Result")
+    console.log(school)
+    res.status(200).send(JSON.stringify(school))
+
+}
+
+const getAllSchools = async (req, res, next) => {
+    const school = await School.find().exec(); //Converting this into a promise using .exec()
+    console.log("Empty Search Result")
+    console.log(school)
+    res.status(200).send(JSON.stringify(school))
+}
+
+
 exports.getSchool = getSchool;
+exports.getAllSchool = getAllSchool
+exports.getAllSchools = getAllSchools

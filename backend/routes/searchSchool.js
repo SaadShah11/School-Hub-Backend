@@ -4,7 +4,11 @@ const search = require('../controllers/searchSchool.js')
 
 const router = express.Router();
 
-router.get('/search/:sName', search.getSchool)
+router.post('/search/:sName', search.getSchool)
+
+router.post('/search/', search.getAllSchool)
+
+router.get('/search/', search.getAllSchools)
 
 //router.post('/post', file_upload.single('image'), dashboard.createPost)//, dashboard.createPost)
 //router.post('/Create_School', school.createSchool)//, dashboard.createPost)
