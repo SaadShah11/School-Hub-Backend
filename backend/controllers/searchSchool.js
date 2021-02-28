@@ -44,7 +44,7 @@ const getSchool = async (req, res, next) => {
     let queryString = "";
     let re = new RegExp(name);
     var query = { schoolName: re };
-
+ 
     if(schoolType!=null){
         //queryString=queryString+" "+schoolType
         query.schoolType = schoolType
@@ -57,22 +57,24 @@ const getSchool = async (req, res, next) => {
         //queryString=queryString+" "+educationType
         query.educationType = educationType
     }
- 
+  
     console.log(query)
     const school = await School.find(query).exec(); //Converting this into a promise using .exec()
     console.log("Search Result")
     console.log(school)
 
-    let filteredSchools = []
-    let finalSchools = school.map((i) => {
-        if (fee.max != null && fee.min != null){
-            if(i.feeStructure.tutionFee>=fee.min && i.feeStructure.tutionFee<=fee.min){
-                filteredSchools.push(i)
-            }
-        }
-    })
+    // let filteredSchools = []
+    // let finalSchools = school.map((i) => {
+    //     if (fee.max != null && fee.min != null){
+    //         if(i.feeStructure.tutionFee>=fee.min && i.feeStructure.tutionFee<=fee.min){
+    //             filteredSchools.push(i)
+    //         }
+    //     }
+    // })
 
-    res.status(200).send(JSON.stringify(filteredSchools))
+    //res.status(200).send(JSON.stringify(filteredSchools))
+    res.status(200).send(JSON.stringify(school))
+
 }
 
 const getAllSchool = async (req, res, next) => {
