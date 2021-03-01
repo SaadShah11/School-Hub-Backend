@@ -79,8 +79,10 @@ const getSchool = async (req, res, next) => {
             console.log(fee.min)
             console.log(fee.max)
             console.log("Values")
-            console.log(i.feeStructure.tutionFee)
-            if (i.feeStructure.tutionFee >= fee.min && i.feeStructure.tutionFee <= fee.min) {
+            console.log(i.schoolName)
+            console.log(i.feeStructure[0].tutionFee)
+            if (i.feeStructure[0].tutionFee >= fee.min && i.feeStructure[0].tutionFee <= fee.max) {
+                console.log("inside If If")
                 filteredSchools.push(i)
             }
         })
