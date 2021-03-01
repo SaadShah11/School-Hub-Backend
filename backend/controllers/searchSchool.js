@@ -49,42 +49,47 @@ const getSchool = async (req, res, next) => {
     console.log(name)
     let re = new RegExp(name);
     var query = { schoolName: re };
- 
-    if(schoolType!=undefined){
+
+    if (schoolType != undefined) {
         //queryString=queryString+" "+schoolType
         query.schoolType = schoolType
     }
-    if(educationLevel!=undefined){
+    if (educationLevel != undefined) {
         //queryString=queryString+" "+educationLevel
         query.educationLevel = educationLevel
     }
-    if(educationType!=undefined){
+    if (educationType != undefined) {
         //queryString=queryString+" "+educationType
         query.educationType = educationType
     }
-  
+
     console.log(query)
     const school = await School.find(query).exec(); //Converting this into a promise using .exec()
     console.log("Search Result")
     console.log(school)
 
-    let filteredSchools = []
-    let finalSchools = school.map((i) => {
-        console.log("Min Max")
-        console.log(fee.min)
-        console.log(fee.min)
-        if (fee.max != undefined && fee.min != undefined){
-            console,log("Values")
+    if (fee.min === undefined && fee.max === undefined) {
+        console.log("if")
+        return res.status(200).send(JSON.stringify(school))
+    } else {
+        console.log("else")
+        let filteredSchools = []
+        let filterSchools = school.map((i) => {
+            console.log("Min Max")
+            console.log(fee.min)
+            console.log(fee.max)
+            console.log("Values")
             console.log(i.feeStructure.tutionFee)
-            if(i.feeStructure.tutionFee>=fee.min && i.feeStructure.tutionFee<=fee.min){
+            if (i.feeStructure.tutionFee >= fee.min && i.feeStructure.tutionFee <= fee.min) {
                 filteredSchools.push(i)
             }
-        }
-    })
-    console.log("Filtered Schools")
-    console.log(filteredSchools)
-    //res.status(200).send(JSON.stringify(filteredSchools))
-    res.status(200).send(JSON.stringify(school))
+        })
+        console.log("Filtered Schools")
+        console.log(filteredSchools)
+        res.status(200).send(JSON.stringify(filteredSchools))
+    }
+
+
 
 }
 
