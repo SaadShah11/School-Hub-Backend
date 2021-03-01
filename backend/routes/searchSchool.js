@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/search/:sName', search.getSchool)
 
-router.post('/search/', search.getAllSchool)
+router.post('/search/', search.getSchool)
 
 router.get('/search/', search.getAllSchools)
 
