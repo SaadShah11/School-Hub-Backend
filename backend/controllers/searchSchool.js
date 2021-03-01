@@ -33,27 +33,32 @@ mongoose.connect(
 const getSchool = async (req, res, next) => {
 
     //fee={min:0,max:5}
-    let fee = req.body.fee
-    let distance = req.body.distance
-    let schoolType = req.body.schoolType;
-    let educationLevel = req.body.educationLevel
-    let educationType = req.body.educationType
+    let fee = req.body.filters.fee
+    console.log("fee")
+    console.log(fee)
+    let distance = req.body.filters.distance
+    console.log(distance)
+    let schoolType = req.body.filters.schoolType;
+    console.log(schoolType)
+    let educationLevel = req.body.filters.educationLevel
+    console.log(educationLevel)
+    let educationType = req.body.filters.educationType
+    console.log(educationType)
 
     const name = req.params.sName;
     console.log(name)
-    let queryString = "";
     let re = new RegExp(name);
     var query = { schoolName: re };
  
-    if(schoolType!=null){
+    if(schoolType!=undefined){
         //queryString=queryString+" "+schoolType
         query.schoolType = schoolType
     }
-    if(educationLevel!=null){
+    if(educationLevel!=undefined){
         //queryString=queryString+" "+educationLevel
         query.educationLevel = educationLevel
     }
-    if(educationType!=null){
+    if(educationType!=undefined){
         //queryString=queryString+" "+educationType
         query.educationType = educationType
     }
@@ -63,15 +68,21 @@ const getSchool = async (req, res, next) => {
     console.log("Search Result")
     console.log(school)
 
-    // let filteredSchools = []
-    // let finalSchools = school.map((i) => {
-    //     if (fee.max != null && fee.min != null){
-    //         if(i.feeStructure.tutionFee>=fee.min && i.feeStructure.tutionFee<=fee.min){
-    //             filteredSchools.push(i)
-    //         }
-    //     }
-    // })
-
+    let filteredSchools = []
+    let finalSchools = school.map((i) => {
+        console.log("Min Max")
+        console.log(fee.min)
+        console.log(fee.min)
+        if (fee.max != undefined && fee.min != undefined){
+            console,log("Values")
+            console.log(i.feeStructure.tutionFee)
+            if(i.feeStructure.tutionFee>=fee.min && i.feeStructure.tutionFee<=fee.min){
+                filteredSchools.push(i)
+            }
+        }
+    })
+    console.log("Filtered Schools")
+    console.log(filteredSchools)
     //res.status(200).send(JSON.stringify(filteredSchools))
     res.status(200).send(JSON.stringify(school))
 
