@@ -17,6 +17,7 @@
 // });
 
 const mongoose = require('mongoose');
+const geolib = require('geolib');
 
 const School = require('../models/school');
 //const HttpError = require('../models/http-error');
@@ -37,6 +38,7 @@ const getSchool = async (req, res, next) => {
     console.log("fee")
     console.log(fee)
     let distance = req.body.distance
+    //distance = distance * 1000
     console.log(distance)
     let schoolType = req.body.schoolType;
     console.log(schoolType)
@@ -44,6 +46,12 @@ const getSchool = async (req, res, next) => {
     console.log(educationLevel)
     let educationType = req.body.educationType
     console.log(educationType)
+
+    let currentLocation = req.body.currentLocation
+    console.log("current Location")
+    console.log(currentLocation)
+
+    let newSchools;
 
     const name = req.params.sName;
     console.log(name)
@@ -73,31 +81,81 @@ const getSchool = async (req, res, next) => {
     console.log("Search Result")
     console.log(school)
 
+    //-----------------------Distance--------------------------------
+    let withinRadius = (newLatitude, newLongitude) => {
+        return geolib.isPointWithinRadius(
+            { latitude: currentLocation.latitude, longitude: currentLocation.longitude },
+            { latitude: newLatitude, longitude: newLongitude },
+            distance * 1000
+        );
+    }
+
+    let schoolsWithinRadius = (schools) => {
+        let newSchools = []
+        schools.map((i) => {
+            if (withinRadius(i.schoolCoordinates.latitude, i.schoolCoordinates.longitude)) {
+                newSchools.push(i)
+            }
+        })
+        console.log("new Schools")
+        console.log(newSchools)
+        return newSchools
+    }
+
+    if (distance !== undefined) {
+        newSchools = schoolsWithinRadius(school)
+    } else {
+        console.log("Distance is undefined")
+    }
+
+    //------------------------Fee------------------------------------
     if (fee.min === undefined && fee.max === undefined) {
-        console.log("if")
-        return res.status(200).send(JSON.stringify(school))
+        if (distance === undefined) {
+            return res.status(200).send(JSON.stringify(school))
+        } else {
+            return res.status(200).send(JSON.stringify(newSchools))
+        }
     } else {
         console.log("else")
         let filteredSchools = []
-        let filterSchools = school.map((i) => {
-            console.log("Min Max")
-            console.log(fee.min)
-            console.log(fee.max)
-            console.log("Values")
-            console.log(i.schoolName)
-            console.log(i.feeStructure[0].tutionFee)
-            if (i.feeStructure[0].tutionFee >= fee.min && i.feeStructure[0].tutionFee <= fee.max) {
-                console.log("inside If If")
-                filteredSchools.push(i)
-            }
-        })
-        console.log("Filtered Schools")
-        console.log(filteredSchools)
-        res.status(200).send(JSON.stringify(filteredSchools))
+
+        if (distance === undefined) {
+            let filterSchools = school.map((i) => {
+                console.log("Min Max")
+                console.log(fee.min)
+                console.log(fee.max)
+                console.log("Values")
+                console.log(i.schoolName)
+                console.log(i.feeStructure[0].tutionFee)
+                if (i.feeStructure[0].tutionFee >= fee.min && i.feeStructure[0].tutionFee <= fee.max) {
+                    console.log("inside If If")
+                    filteredSchools.push(i)
+                }
+            })
+            console.log("Filtered Schools")
+            console.log(filteredSchools)
+
+        } else {
+            let filterSchools = newSchools.map((i) => {
+                console.log("Min Max")
+                console.log(fee.min)
+                console.log(fee.max)
+                console.log("Values")
+                console.log(i.schoolName)
+                console.log(i.feeStructure[0].tutionFee)
+                if (i.feeStructure[0].tutionFee >= fee.min && i.feeStructure[0].tutionFee <= fee.max) {
+                    console.log("inside If If")
+                    filteredSchools.push(i)
+                }
+            })
+            console.log("Filtered Schools")
+            console.log(filteredSchools)
+
+        }
+        return res.status(200).send(JSON.stringify(filteredSchools))
+
+
     }
-
-
-
 }
 
 
