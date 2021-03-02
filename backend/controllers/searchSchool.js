@@ -55,7 +55,10 @@ const getSchool = async (req, res, next) => {
 
     const name = req.params.sName;
     console.log(name)
-    let re = new RegExp(name);
+    //var res = name.toLowerCase();
+    //let re = new RegExp(name);
+    //let re = `/{name}/i`;
+    let re = new RegExp(name, "i");
     if (name == undefined) {
         var query = {}
     } else {
