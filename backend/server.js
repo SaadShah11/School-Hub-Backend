@@ -7,7 +7,8 @@ const userManagementRoutes = require('./routes/user_management.js')
 const dashboardRoutes = require('./routes/dashboard.js')
 const schoolRoutes = require('./routes/school.js')
 const searchSchoolRoutes = require('./routes/searchSchool.js')
-
+const reviewRoutes = require('./routes/review.js')
+const videoStreamingRoutes = require("./routes/videoStreaming")
 
 //const shopRoutes = require('./routes/shop.js')
 
@@ -55,6 +56,10 @@ app.post('/product',(req,res,next)=>{
 app.use('/user_management', userManagementRoutes)
 
 app.use('/dashboard', dashboardRoutes)
+
+app.use('/review', reviewRoutes)
+
+app.use('/videoStreaming', videoStreamingRoutes)
 
 app.use('/school', schoolRoutes)
 

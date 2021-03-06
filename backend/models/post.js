@@ -5,6 +5,7 @@ const postSchema = new mongoose.Schema({
     //type: { type: String, required: true},
     userID: { type: String, required: true },
     username: { type: String, required: true },
+    userProfilePic: { type: String, required: false },
     text: { type: String, required: false },
     image: { type: String, required: false },
     likes: { type: Number, required: false },

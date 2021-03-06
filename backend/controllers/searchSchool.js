@@ -59,10 +59,11 @@ const getSchool = async (req, res, next) => {
     //let re = new RegExp(name);
     //let re = `/{name}/i`;
     let re = new RegExp(name, "i");
+    let query;
     if (name == undefined) {
-        var query = {}
+        query = {}
     } else {
-        var query = { schoolName: re };
+        query = { schoolName: re };
     }
 
 
@@ -169,6 +170,17 @@ const getAllSchools = async (req, res, next) => {
     res.status(200).send(JSON.stringify(school))
 }
 
+const getSpecificSchool = async (req, res, next) => {
 
+    const id = req.params.sid;
+    console.log(id)
+
+    var query = { _id: id };
+    console.log(query)
+    const school = await School.find(query).exec(); //Converting this into a promise using .exec()
+    return res.status(200).send(JSON.stringify(school))
+}
+
+exports.getSpecificSchool = getSpecificSchool;
 exports.getSchool = getSchool;
 exports.getAllSchools = getAllSchools
