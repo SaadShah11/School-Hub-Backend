@@ -8,7 +8,8 @@ const videoStreamingSchema = new mongoose.Schema({
     title: { type: String, required: true },
     privacy: { type: String, required: true },
     date: { type: String, required: true },
-    time: { type: String, required: true },
+    startTime: { type: String, required: true },
+    endTime: { type: String, required: true },
     currentTime: { type: String, required: true },
     description: { type: String, required: true },
     status: { type: String, required:true }
