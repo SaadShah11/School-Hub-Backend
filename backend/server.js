@@ -9,6 +9,7 @@ const schoolRoutes = require('./routes/school.js')
 const searchSchoolRoutes = require('./routes/searchSchool.js')
 const reviewRoutes = require('./routes/review.js')
 const videoStreamingRoutes = require("./routes/videoStreaming")
+const schoolhubReviewRoutes = require("./routes/schoolhubReview")
 
 //const shopRoutes = require('./routes/shop.js')
 
@@ -58,6 +59,8 @@ app.use('/user_management', userManagementRoutes)
 app.use('/dashboard', dashboardRoutes)
 
 app.use('/review', reviewRoutes)
+
+app.use('/mainReview', schoolhubReviewRoutes)
 
 app.use('/videoStreaming', videoStreamingRoutes)
 
