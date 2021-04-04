@@ -2,6 +2,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
+const defaultPic = 'https://firebasestorage.googleapis.com/v0/b/okay-945dc.appspot.com/o/images%2FDefaultPic.png?alt=media&token=172c25b2-5f82-4321-8589-a2b33972bebb'
 
 const Users = require('../models/users');
 const HttpError = require('../models/http-error');
@@ -20,7 +21,8 @@ const createUser = async (req, res, next) => {
         email: req.body.email,
         username: req.body.username,
         phoneNumber: req.body.phoneNumber,
-        password: req.body.password
+        password: req.body.password,
+        profilePic: defaultPic
     })
 
     let existingUser;
@@ -142,6 +144,90 @@ const userLogin = async (req, res, next) => {
     res.status(200).send(JSON.stringify({ _id: existingUser._id, username: existingUser.username, type: existingUser.type, token: token }));
 }
 
+const getSpecificUser = async (req, res, next) => {
+    const uid = req.params.uid;
+    console.log(uid)
+
+    var query = { _id: uid };
+    console.log(query)
+
+    const user = await Users.find(query).exec();
+    //user = await Users.findById(uid);
+    res.json(user);
+    res.status(200).send(JSON.stringify(user));
+}
+
+const updateProfilePic = async (req, res, next) => {
+    let newProfilePic = req.body.profilePic;
+
+    const uid = req.params.uid;
+
+    let user;
+    try {
+        user = await Users.findById(uid);
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not update user.',
+            500
+        );
+        return next(error);
+    }
+
+    user.profilePic = newProfilePic
+
+    try {
+        await user.save();
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not update user.',
+            500
+        );
+        console.log(err)
+        return next(error);
+    }
+
+    res.status(200).json(user);
+
+}
+
+const updateProfile = async (req, res, next) => {
+    let newUsername = req.body.username;
+    let newPhoneNo = req.body.phoneNumber;
+
+    const uid = req.params.uid;
+
+    let user;
+    try {
+        user = await Users.findById(uid);
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not update user.',
+            500
+        );
+        return next(error);
+    }
+
+    user.username = newUsername
+    user.phoneNumber = newPhoneNo
+
+    try {
+        await user.save();
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not update user.',
+            500
+        );
+        console.log(err)
+        return next(error);
+    }
+
+    res.status(200).json(user);
+
+}
+
 exports.createUser = createUser;
 exports.getUser = getUser;
+exports.getSpecificUser = getSpecificUser;
 exports.userLogin = userLogin;
+exports.updateProfilePic = updateProfilePic;
+exports.updateProfile = updateProfile;

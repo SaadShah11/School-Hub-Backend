@@ -14,6 +14,12 @@ router.get('/signup', (req, res, next) => {
 
 }) 
 
+router.patch('/userProfile/updateProfilePic/:uid', userManagement.updateProfilePic)
+
+router.patch('/userProfile/updateProfile/:uid', userManagement.updateProfile)
+
 router.post('/signup', userManagement.createUser)
+
+router.get('/userProfile/:uid', userManagement.getSpecificUser)
 
 module.exports = router;
