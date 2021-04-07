@@ -193,6 +193,8 @@ const updateProfilePic = async (req, res, next) => {
 const updateProfile = async (req, res, next) => {
     let newUsername = req.body.username;
     let newPhoneNo = req.body.phoneNumber;
+    let oldPassword = req.body.oldPassword;
+    let newPassword = req.body.newPassword;
 
     const uid = req.params.uid;
 
@@ -207,8 +209,42 @@ const updateProfile = async (req, res, next) => {
         return next(error);
     }
 
-    user.username = newUsername
-    user.phoneNumber = newPhoneNo
+    let isPassValid = false;
+    try {
+        isPassValid = await bcrypt.compare(oldPassword, user.password)
+    } catch (err) {
+        const error = new HttpError('Hashing error', 500);
+        res.status(500).send()
+        return next(error)
+    }
+
+    if (!isPassValid) {
+        const error = new HttpError('Wrong Password', 401)
+        res.status(401).send()
+        return next(error)
+    }
+
+    let hashedPassword;
+    try {
+        //Number signifies difficulty level of hashing
+        hashedPassword = await bcrypt.hash(newPassword, 12)
+        user.password = hashedPassword
+        user.username = newUsername
+        user.phoneNumber = newPhoneNo
+        console.log("Hashed New Password is:")
+        console.log(hashedPassword)
+        const result = await user.save();
+        res.status(200)
+    } catch (err) {
+        const error = new HttpError(
+            'Hashing Failed',
+            500
+        );
+        console.log(err)
+        return next(error);
+    }
+
+
 
     try {
         await user.save();
