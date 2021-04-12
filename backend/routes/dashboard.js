@@ -10,6 +10,8 @@ router.get('/home', dashboard.getPosts)
 //router.post('/post', file_upload.single('image'), dashboard.createPost)//, dashboard.createPost)
 router.post('/post', dashboard.createPost)//, dashboard.createPost)
 
-router.patch('/:pid', dashboard.addComment)
+router.patch('/updateComment/:pid', dashboard.addComments)
+
+router.patch('/updateLike/:pid', dashboard.addLikes)
 
 module.exports = router;

@@ -21,6 +21,7 @@ const createPost = async (req, res, next) => {
         text: req.body.text,
         image: req.body.image,
         likes: req.body.likes,
+        totalLikes: 0,
         time: req.body.time,
         //no comment at start
         comments: req.body.comments
@@ -52,7 +53,8 @@ const getPosts = async (req, res, next) => {
 
 const addComments = async (req, res, next) => {
     let newComment = req.body.comments;
-    let newLikes = req.body.likes;
+    // let newLikes = req.body.likes;
+    // let newTotalLikes = 0
 
     const postId = req.params.pid;
 
@@ -61,13 +63,14 @@ const addComments = async (req, res, next) => {
         post = await Post.findById(postId);
     } catch (err) {
         const error = new HttpError(
-            'Something went wrong, could not update place.',
+            'Something went wrong, could not update post.',
             500
         );
         return next(error);
     }
 
     let allComments = post.comments;
+    // let allLikes = post.likes
 
     //console.log(newLikes)
     //console.log('Break')
@@ -78,10 +81,19 @@ const addComments = async (req, res, next) => {
         console.log(newComment.text)
     }
 
-    if (newLikes != null && newLikes != undefined) {
-        newLikes = post.likes + newLikes
-        post.likes = newLikes
-    }
+    // if (newLikes != null && newLikes != undefined) {
+    //     //newLikes = post.likes + newLikes
+    //     post.likes.push(newLikes)
+    //     console.log(newLikes)
+    //     //post.likes = newLikes
+    //     console.log(post)
+
+    //     newTotalLikes = post.likes.filter(likeObject => likeObject.like===true)
+    //     post.totalLikes = newTotalLikes.length
+    //     console.log("Likes")
+    //     console.log(newTotalLikes.length)
+
+    // }
 
     //console.log(post.comments)
 
@@ -100,9 +112,77 @@ const addComments = async (req, res, next) => {
 
 }
 
+const addLikes = async (req, res, next) => {
+
+    let newLikes = req.body.likes;
+    let newTotalLikes = 0
+    let newUser = false;
+
+    const postId = req.params.pid;
+
+    let post;
+    try {
+        post = await Post.findById(postId);
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not update post.',
+            500
+        );
+        return next(error);
+    }
+
+    let allLikes = post.likes
+
+    let existingUserLike = allLikes.filter(likeObject => likeObject.userID === newLikes.userID)
+
+    if (existingUserLike.length != 0) {
+        let arrayIndex;
+        for(let i=0; i<=allLikes.length ;i++){
+            if(allLikes[i].userID === newLikes.userID){
+                arrayIndex = i;
+                break;
+            }
+        }
+        post.likes[arrayIndex].like = newLikes.like
+
+        newTotalLikes = post.likes.filter(likeObject => likeObject.like === true)
+        post.totalLikes = newTotalLikes.length
+        console.log("Likes")
+        console.log(newTotalLikes.length)
+    } else {
+        if (newLikes != null && newLikes != undefined) {
+            //newLikes = post.likes + newLikes
+            post.likes.push(newLikes)
+            console.log(newLikes)
+            //post.likes = newLikes
+            console.log(post)
+
+            newTotalLikes = post.likes.filter(likeObject => likeObject.like === true)
+            post.totalLikes = newTotalLikes.length
+            console.log("Likes")
+            console.log(newTotalLikes.length)
+        }
+    }
+
+    try {
+        await post.save();
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not update post.',
+            500
+        );
+        console.log(err)
+        return next(error);
+    }
+
+    res.status(200).json(post);
+
+}
+
 exports.createPost = createPost;
 exports.getPosts = getPosts;
-exports.addComment = addComments;
+exports.addComments = addComments;
+exports.addLikes = addLikes;
 
 /*
 Sample Data
