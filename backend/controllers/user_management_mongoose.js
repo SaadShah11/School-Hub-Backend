@@ -210,41 +210,51 @@ const updateProfile = async (req, res, next) => {
     }
 
     let isPassValid = false;
-    try {
-        isPassValid = await bcrypt.compare(oldPassword, user.password)
-    } catch (err) {
-        const error = new HttpError('Hashing error', 500);
-        res.status(500).send()
-        return next(error)
+
+    if (oldPassword != undefined && newPassword != undefined) {
+        try {
+            isPassValid = await bcrypt.compare(oldPassword, user.password)
+        } catch (err) {
+            const error = new HttpError('Hashing error', 500);
+            res.status(500).send()
+            return next(error)
+        }
+
+        if (!isPassValid) {
+            const error = new HttpError('Wrong Password', 401)
+            res.status(401).send()
+            return next(error)
+        }
+
+        let hashedPassword;
+        try {
+            //Number signifies difficulty level of hashing
+            hashedPassword = await bcrypt.hash(newPassword, 12)
+            user.password = hashedPassword
+            //OLD METHOD
+            // user.username = newUsername
+            // user.phoneNumber = newPhoneNo
+            console.log("Hashed New Password is:")
+            console.log(hashedPassword)
+            const result = await user.save();
+            res.status(200)
+        } catch (err) {
+            const error = new HttpError(
+                'Hashing Failed',
+                500
+            );
+            console.log(err)
+            return next(error);
+        }
     }
 
-    if (!isPassValid) {
-        const error = new HttpError('Wrong Password', 401)
-        res.status(401).send()
-        return next(error)
-    }
-
-    let hashedPassword;
-    try {
-        //Number signifies difficulty level of hashing
-        hashedPassword = await bcrypt.hash(newPassword, 12)
-        user.password = hashedPassword
+    if (newUsername != undefined) {
         user.username = newUsername
-        user.phoneNumber = newPhoneNo
-        console.log("Hashed New Password is:")
-        console.log(hashedPassword)
-        const result = await user.save();
-        res.status(200)
-    } catch (err) {
-        const error = new HttpError(
-            'Hashing Failed',
-            500
-        );
-        console.log(err)
-        return next(error);
     }
 
-
+    if (newPhoneNo != undefined) {
+        user.phoneNumber = newPhoneNo
+    }
 
     try {
         await user.save();
