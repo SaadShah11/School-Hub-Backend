@@ -47,8 +47,10 @@ const getStreams = async (req, res, next) => {
     const streams = await videoStreaming.find().exec(); //Converting this into a promise using .exec()
     res.status(200).send(JSON.stringify(streams))
 }
+
 const updateStatus = async (req, res, next) => {
     let newStatus = req.body.status;
+    console.log(newStatus)
 
     const streamID = req.params.streamid;
 
@@ -57,7 +59,7 @@ const updateStatus = async (req, res, next) => {
         stream = await videoStreaming.findById(streamID);
     } catch (err) {
         const error = new HttpError(
-            'Something went wrong, could not update place.',
+            'Something went wrong, could not update LiveStream.',
             500
         );
         return next(error);
@@ -69,7 +71,7 @@ const updateStatus = async (req, res, next) => {
         await stream.save();
     } catch (err) {
         const error = new HttpError(
-            'Something went wrong, could not update post.',
+            'Something went wrong, could not update LiveStream.',
             500
         );
         console.log(err)

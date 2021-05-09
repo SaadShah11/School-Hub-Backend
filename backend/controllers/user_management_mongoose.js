@@ -271,9 +271,64 @@ const updateProfile = async (req, res, next) => {
 
 }
 
+const superAdminLogin = async (req, res, next) => {
+    const { email, password } = req.body;
+
+    let existingUser;
+    try {
+        existingUser = await Users.findOne({ email: email })
+    } catch (err) {
+        const error = new HttpError('Email error occured', 500);
+        res.status(500).send()
+        return next(error)
+    }
+
+    //if (!existingUser || existingUser.password !== password || existingUser.type !== type) {
+    if (!existingUser) {
+        const error = new HttpError('Wrong credentials', 401)
+        res.status(401).send()
+        return next(error)
+    }
+
+    let isPassValid = false;
+    try {
+        isPassValid = await bcrypt.compare(password, existingUser.password)
+    } catch (err) {
+        const error = new HttpError('Hashing error', 500);
+        res.status(500).send()
+        return next(error)
+    }
+
+    if (!isPassValid) {
+        const error = new HttpError('Wrong Password', 401)
+        res.status(401).send()
+        return next(error)
+    }
+
+    let token;
+    //check official docs of wen tokens to undestand the options for the 3rd optional parameters, using expire is recommended
+    try {
+        token = jwt.sign({ _id: existingUser._id, username: existingUser.username, email: existingUser.email },
+            "secret_key",
+            { expiresIn: "1h" })
+    } catch (err) {
+        const error = new HttpError(
+            'Token generation Failed',
+            500
+        );
+        console.log(err)
+        return next(error);
+    }
+
+    console.log('Login Successful')
+    //res.json({ message: "login successful" })
+    res.status(200).send(JSON.stringify({ _id: existingUser._id, username: existingUser.username, token: token }));
+}
+
 exports.createUser = createUser;
 exports.getUser = getUser;
 exports.getSpecificUser = getSpecificUser;
 exports.userLogin = userLogin;
 exports.updateProfilePic = updateProfilePic;
 exports.updateProfile = updateProfile;
+exports.superAdminLogin = superAdminLogin
