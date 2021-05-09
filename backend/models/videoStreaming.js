@@ -12,7 +12,9 @@ const videoStreamingSchema = new mongoose.Schema({
     endTime: { type: String, required: true },
     currentTime: { type: String, required: true },
     description: { type: String, required: true },
-    status: { type: String, required:true }
+    status: { type: String, required:true },
+    resourceURI: { type: String, required:false },
+    isLive: { type: Boolean, required:false }
 })
 
 module.exports = mongoose.model('videoStreaming', videoStreamingSchema)

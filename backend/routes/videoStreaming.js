@@ -11,4 +11,6 @@ router.post('/addStream', stream.createStream)//, dashboard.createPost)
 
 router.patch('/updateStream/:streamid', stream.updateStatus)
 
+router.patch('/updateStreamURI/:streamid', stream.updateURL)
+
 module.exports = router;
