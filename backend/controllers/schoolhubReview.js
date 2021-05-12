@@ -43,6 +43,46 @@ const getReviews = async (req, res, next) => {
     res.status(200).send(JSON.stringify(reviews))
 }
 
+const addReply = async (req, res, next) => {
+    let newReply = req.body.reply;
+
+    const reviewID = req.params.rid;
+
+    let review;
+    try {
+        review = await Review.findById(reviewID);
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not update post.',
+            500
+        );
+        return next(error);
+    }
+
+    //let allComments = review.comments;
+
+    if (newReply != null && newReply != undefined && newReply.text != undefined && newReply.username != undefined
+        && newReply.id != undefined) {
+        review.reply.push(newReply)
+        console.log(newReply)
+    }
+
+    try {
+        await review.save();
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not update post.',
+            500
+        );
+        console.log(err)
+        return next(error);
+    }
+
+    res.status(200).json(review);
+
+}
+
 exports.createReview = createReview;
 exports.getReviews = getReviews;
+exports.addReply = addReply;
 

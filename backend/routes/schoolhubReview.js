@@ -9,6 +9,6 @@ router.get('/schoolhubReviews', review.getReviews)
 //router.post('/post', file_upload.single('image'), dashboard.createPost)//, dashboard.createPost)
 router.post('/schoolhubReviews', review.createReview)//, dashboard.createPost)
 
-//router.patch('/:pid', review.updateReview)
+router.patch('/updateReview/:rid', review.addReply)
 
 module.exports = router;
