@@ -23,7 +23,9 @@ const createStream = async (req, res, next) => {
         currentTime: req.body.currentTime,
         description: req.body.description,
         privacy: req.body.privacy,
-        status: "Pending"
+        status: "Pending",
+        resourceURI: "",
+        isLive: false
     })
 
     try {
@@ -82,6 +84,45 @@ const updateStatus = async (req, res, next) => {
 
 }
 
+const updateURL = async (req, res, next) => {
+    let newURL = req.body.resourceURI;
+    let newBool = req.body.isLive;
+
+    console.log(newURL)
+    console.log(newBool)
+
+    const streamID = req.params.streamid;
+
+    let stream;
+    try {
+        stream = await videoStreaming.findById(streamID);
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not update LiveStream.',
+            500
+        );
+        return next(error);
+    }
+
+    stream.resourceURI = newURL
+    stream.isLive = newBool
+
+    try {
+        await stream.save();
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not update LiveStream.',
+            500
+        );
+        console.log(err)
+        return next(error);
+    }
+
+    res.status(200).json(stream);
+
+}
+
 exports.createStream = createStream;
 exports.getStreams = getStreams;
 exports.updateStatus = updateStatus;
+exports.updateURL = updateURL;
