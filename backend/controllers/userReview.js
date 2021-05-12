@@ -20,7 +20,8 @@ const createReview = async (req, res, next) => {
         userProfilePic: req.body.userProfilePic,
         date: req.body.date,
         reviewText: req.body.reviewText,
-        rating: req.body.rating
+        rating: req.body.rating,
+        reply: []
     })
 
     try {
@@ -45,8 +46,8 @@ const getReviews = async (req, res, next) => {
 }
 
 const addReply = async (req, res, next) => {
-    let newReply = req.body.reply;
-
+    let newReply = req.body;
+    console.log("inside addreply")
     const reviewID = req.params.rid;
 
     let review;
@@ -63,7 +64,7 @@ const addReply = async (req, res, next) => {
     //let allComments = review.comments;
 
     if (newReply != null && newReply != undefined && newReply.text != undefined && newReply.username != undefined
-        && newReply.id != undefined) {
+        && newReply.userID != undefined) {
         review.reply.push(newReply)
         console.log(newReply)
     }

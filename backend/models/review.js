@@ -8,7 +8,13 @@ const reviewSchema = new mongoose.Schema({
     userProfilePic: { type: String, required: false },
     date: { type: String, required: false },
     reviewText: { type: String, required: true },
-    rating: { type: Number, required:true }
+    rating: { type: Number, required:true },
+    reply: [{
+        username: { type: String, required: true },
+        userID: { type: String, required: true },
+        text: { type: String, required: false },
+        profilePic: { type: String, required: false }
+    }]
 })
 
 module.exports = mongoose.model('review', reviewSchema)

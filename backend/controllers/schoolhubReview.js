@@ -18,11 +18,15 @@ const createReview = async (req, res, next) => {
         username: req.body.username,
         userProfilePic: req.body.userProfilePic,
         date: req.body.date,
+        reply: [],
         reviewText: req.body.reviewText,
         rating: req.body.rating
+        
     })
 
     try {
+        console.log("createdReview")
+        console.log(createReview)
         const result = await createdReview.save();
         res.status(200).send()
         res.json(result)
@@ -44,13 +48,18 @@ const getReviews = async (req, res, next) => {
 }
 
 const addReply = async (req, res, next) => {
-    let newReply = req.body.reply;
-
+    let newReply = req.body;
+    console.log(newReply)
+    //console.log("inside Reply")
+    //console.log(newReply)
     const reviewID = req.params.rid;
 
     let review;
     try {
         review = await Review.findById(reviewID);
+        console.log("review")
+        console.log(review)
+
     } catch (err) {
         const error = new HttpError(
             'Something went wrong, could not update post.',
@@ -60,10 +69,11 @@ const addReply = async (req, res, next) => {
     }
 
     //let allComments = review.comments;
-
     if (newReply != null && newReply != undefined && newReply.text != undefined && newReply.username != undefined
-        && newReply.id != undefined) {
+        && newReply.userID != undefined) {
+        console.log(review.reply)
         review.reply.push(newReply)
+        console.log("NewReply")
         console.log(newReply)
     }
 
