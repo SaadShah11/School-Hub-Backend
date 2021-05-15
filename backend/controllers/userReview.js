@@ -30,7 +30,7 @@ const createReview = async (req, res, next) => {
         res.json(result)
     } catch (err) {
         const error = new HttpError(
-            'Post failed, please try again later.',
+            'Review failed, please try again later.',
             500
         );
         console.log(err)

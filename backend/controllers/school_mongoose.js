@@ -28,7 +28,8 @@ const createSchool = async (req, res, next) => {
         schoolCoordinates: req.body.schoolCoordinates,
         feeStructure: req.body.feeStructure,
         images: req.body.images,
-        videos: req.body.videos
+        videos: req.body.videos,
+        teachers: []
     })
 
     try {

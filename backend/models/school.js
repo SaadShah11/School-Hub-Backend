@@ -34,7 +34,12 @@ const schoolSchema = new mongoose.Schema({
     }],
     videos: {
         path: { type: String, required: false }
-    }
+    },
+    teachers: [{
+        teacherName: {type: String, required: false},
+        teacherID: {type: String, required: false},
+        teacherProfilePic: {type: String, required: false}
+    }]
 })
 
 module.exports = mongoose.model('school', schoolSchema)

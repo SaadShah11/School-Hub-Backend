@@ -18,15 +18,12 @@ const createReview = async (req, res, next) => {
         username: req.body.username,
         userProfilePic: req.body.userProfilePic,
         date: req.body.date,
-        reply: [],
         reviewText: req.body.reviewText,
-        rating: req.body.rating
-        
+        rating: req.body.rating,
+        reply: []
     })
 
     try {
-        console.log("createdReview")
-        console.log(createReview)
         const result = await createdReview.save();
         res.status(200).send()
         res.json(result)
