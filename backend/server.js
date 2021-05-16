@@ -12,6 +12,7 @@ const videoStreamingRoutes = require("./routes/videoStreaming")
 const schoolhubReviewRoutes = require("./routes/schoolhubReview")
 const groupRoutes = require("./routes/group")
 const superAdminRoutes = require("./routes/superAdmin")
+const teacherRequestRoutes = require("./routes/teacherRequest")
 
 //const shopRoutes = require('./routes/shop.js')
 
@@ -73,6 +74,8 @@ app.use('/searchSchool', searchSchoolRoutes)
 app.use('/groups', groupRoutes)
 
 app.use('/superAdmin', superAdminRoutes)
+
+app.use('/teacherRequest', teacherRequestRoutes)
 
 //When all middlewares start with same routes then we do this, only the routes starting
 //with the admin will enter this method
