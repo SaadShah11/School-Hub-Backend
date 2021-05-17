@@ -38,6 +38,7 @@ const schoolSchema = new mongoose.Schema({
     teachers: [{
         teacherName: {type: String, required: false},
         teacherID: {type: String, required: false},
+        teacherEmail: {type: String, required: false},
         teacherProfilePic: {type: String, required: false}
     }]
 })

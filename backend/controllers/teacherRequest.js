@@ -79,6 +79,7 @@ const updateTeacherRequest = async (req, res, next) => {
     let teacherObj = {
         teacherID: tteacherRequest.teacherID,
         teacherName: tteacherRequest.teacherName,
+        teacherEmail: tteacherRequest.teacherEmail,
         teacherProfilePic: tteacherRequest.teacherProfilePic
     }
 
