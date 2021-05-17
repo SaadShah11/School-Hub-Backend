@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const teacherRequest = require('../models/teacherRequest');
+const School = require('../models/school');
 const HttpError = require('../models/http-error');
 
 mongoose.connect(
@@ -28,7 +29,6 @@ const createTeacherRequest = async (req, res, next) => {
         //res.status(201).json({ stream: createdStream.toObject({ getters: true }) });
         //res.json(result)
     } catch (err) {
-        console.log(err)
         const error = new HttpError(
             'Teacher Request failed, please try again later.',
             500
@@ -47,25 +47,62 @@ const getTeacherRequests = async (req, res, next) => {
 
 const updateTeacherRequest = async (req, res, next) => {
     let newStatus = req.body.status;
+    let schoolID = req.body.schoolID
     console.log(newStatus)
+    console.log(schoolID)
 
     const teacherRequestID = req.params.tid;
+    console.log(teacherRequestID)
 
-    let teacherRequest;
+    let tteacherRequest;
     try {
-        teacherRequest = await teacherRequest.findById(teacherRequestID);
+        tteacherRequest = await teacherRequest.findById(teacherRequestID);
     } catch (err) {
         const error = new HttpError(
-            'Something went wrong, could not update status.',
+            'Something went wrong, could not find teacher.',
             500
         );
         return next(error);
     }
 
-    teacherRequest.status = newStatus
+    let school;
+    try {
+        school = await School.findById(schoolID);
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not find School.',
+            500
+        );
+        return next(error);
+    }
+
+    let teacherObj = {
+        teacherID: tteacherRequest.teacherID,
+        teacherName: tteacherRequest.teacherName,
+        teacherProfilePic: tteacherRequest.teacherProfilePic
+    }
+
+    tteacherRequest.status = newStatus
+
+    if(newStatus === "Accepted"){
+        console.log("Teacher Object")
+        console.log(teacherObj)
+        school.teachers.push(teacherObj)
+
+        try {
+            await school.save();
+        } catch (err) {
+            const error = new HttpError(
+                'Something went wrong, could not update school.',
+                500
+            );
+            console.log(err)
+            return next(error);
+        }
+    }
 
     try {
-        await teacherRequest.save();
+        await tteacherRequest.save();
     } catch (err) {
         const error = new HttpError(
             'Something went wrong, could not update status.',
@@ -75,7 +112,7 @@ const updateTeacherRequest = async (req, res, next) => {
         return next(error);
     }
 
-    res.status(200).json(teacherRequest);
+    res.status(200).json(tteacherRequest);
 
 }
 
