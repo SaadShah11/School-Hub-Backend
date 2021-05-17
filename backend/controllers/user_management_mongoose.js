@@ -141,7 +141,7 @@ const userLogin = async (req, res, next) => {
 
     console.log('Login Successful')
     //res.json({ message: "login successful" })
-    res.status(200).send(JSON.stringify({ _id: existingUser._id, username: existingUser.username, type: existingUser.type, token: token }));
+    res.status(200).send(JSON.stringify({ _id: existingUser._id, username: existingUser.username, type: existingUser.type,profilePic:existingUser.profilePic,email:existingUser.email, token: token }));
 }
 
 const getSpecificUser = async (req, res, next) => {
@@ -322,7 +322,7 @@ const superAdminLogin = async (req, res, next) => {
 
     console.log('Login Successful')
     //res.json({ message: "login successful" })
-    res.status(200).send(JSON.stringify({ _id: existingUser._id, username: existingUser.username,profilePic: existingUser.profilePic, email:existingUser.email, token: token }));
+    res.status(200).send(JSON.stringify({ _id: existingUser._id, username: existingUser.username, token: token }));
 }
 
 exports.createUser = createUser;
