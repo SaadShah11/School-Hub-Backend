@@ -13,12 +13,13 @@ mongoose.connect(
 
 const createTeacherRequest = async (req, res, next) => {
     const createdTeacherRequest = new teacherRequest({
-        teacherID: req.body.tecaherID,
-        teacherName: req.body.tecaherName,
+        teacherID: req.body.teacherID,
+        teacherName: req.body.teacherName,
+        teacherEmail: req.body.teacherEmail,
         schoolID: req.body.schoolID,
         adminID: req.body.adminID,
         status: "Pending",
-        teacherProfilePic: req.body.tecaherProfilePic
+        teacherProfilePic: req.body.teacherProfilePic
     })
 
     try {
@@ -27,6 +28,7 @@ const createTeacherRequest = async (req, res, next) => {
         //res.status(201).json({ stream: createdStream.toObject({ getters: true }) });
         //res.json(result)
     } catch (err) {
+        console.log(err)
         const error = new HttpError(
             'Teacher Request failed, please try again later.',
             500
