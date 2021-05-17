@@ -49,6 +49,8 @@ const addReply = async (req, res, next) => {
     let newReply = req.body;
     console.log("inside addreply")
     const reviewID = req.params.rid;
+    console.log(newReply)
+    console.log(reviewID)
 
     let review;
     try {
@@ -63,8 +65,9 @@ const addReply = async (req, res, next) => {
 
     //let allComments = review.comments;
 
-    if (newReply != null && newReply != undefined && newReply.text != undefined && newReply.username != undefined
-        && newReply.userID != undefined) {
+    // && newReply.text != undefined && newReply.username != undefined
+    // && newReply.userID != undefined
+    if (newReply != null && newReply != undefined) {
         review.reply.push(newReply)
         console.log(newReply)
     }

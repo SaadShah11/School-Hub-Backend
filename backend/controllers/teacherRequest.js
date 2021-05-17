@@ -16,6 +16,7 @@ const createTeacherRequest = async (req, res, next) => {
         teacherID: req.body.tecaherID,
         teacherName: req.body.tecaherName,
         schoolID: req.body.schoolID,
+        adminID: req.body.adminID,
         status: req.body.status,
         teacherProfilePic: req.body.tecaherProfilePic,
     })

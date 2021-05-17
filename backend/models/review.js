@@ -10,9 +10,9 @@ const reviewSchema = new mongoose.Schema({
     reviewText: { type: String, required: true },
     rating: { type: Number, required:true },
     reply: [{
-        username: { type: String, required: true },
-        userID: { type: String, required: true },
-        text: { type: String, required: false },
+        username: { type: String, required: false },
+        userID: { type: String, required: false },
+        text: { type: String, required: true },
         profilePic: { type: String, required: false }
     }]
 })
