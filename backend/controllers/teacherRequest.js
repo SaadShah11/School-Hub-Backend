@@ -17,8 +17,8 @@ const createTeacherRequest = async (req, res, next) => {
         teacherName: req.body.tecaherName,
         schoolID: req.body.schoolID,
         adminID: req.body.adminID,
-        status: req.body.status,
-        teacherProfilePic: req.body.tecaherProfilePic,
+        status: "Pending",
+        teacherProfilePic: req.body.tecaherProfilePic
     })
 
     try {
