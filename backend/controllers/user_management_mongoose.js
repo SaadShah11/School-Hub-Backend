@@ -80,7 +80,7 @@ const createUser = async (req, res, next) => {
         return next(error);
     }
 
-    res.status(201).json({ token: token,_id: existingUser._id, username: existingUser.username, email: existingUser.email, type: existingUser.type  })
+    res.status(201).json({ token: token,_id: createdUser._id, username: createdUser.username, email: createdUser.email, type: createdUser.type  })
 
 };
 
