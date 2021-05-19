@@ -33,9 +33,7 @@ const schoolSchema = new mongoose.Schema({
     images: [{
         path: { type: String, required: false }
     }],
-    videos: {
-        path: { type: String, required: false }
-    },
+    videos: { type: String, required: false },
     teachers: [{
         teacherName: { type: String, required: false },
         teacherID: { type: String, required: false },
