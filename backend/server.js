@@ -77,7 +77,7 @@ app.use('/groups', groupRoutes)
 app.use('/superAdmin', superAdminRoutes)
 
 app.use('/teacherRequest', teacherRequestRoutes)
-chatRequestRoutes
+
 app.use('/chat', chatRequestRoutes)
 
 //When all middlewares start with same routes then we do this, only the routes starting

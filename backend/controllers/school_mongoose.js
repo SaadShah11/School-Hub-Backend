@@ -5,6 +5,8 @@ const School = require('../models/school');
 const HttpError = require('../models/http-error');
 const { json } = require('body-parser');
 
+const defaultPic = 'https://firebasestorage.googleapis.com/v0/b/okay-945dc.appspot.com/o/schoolImages%2FdefaultSchoolIcon.jpeg?alt=media&token=1bad9aff-5d0b-4513-88ca-039d9c6ee180'
+
 mongoose.connect(
     'mongodb+srv://saad:saad@schoolhub.zmtqr.mongodb.net/school?retryWrites=true&w=majority'
 ).then(() => {
@@ -17,6 +19,26 @@ const createSchool = async (req, res, next) => {
     const createdSchool = new School({
         adminID: req.body.adminID,
         schoolName: req.body.schoolName,
+        schoolIcon: req.body.schoolIcon,
+        schoolAddress: req.body.schoolAddress,
+        contactNumber: req.body.contactNumber,
+        schoolEmail: req.body.schoolEmail,
+        zipCode: req.body.zipCode,
+        aboutSchool: req.body.aboutSchool,
+        schoolType: req.body.schoolType,
+        educationLevel: req.body.educationLevel,
+        educationType: req.body.educationType,
+        schoolCoordinates: req.body.schoolCoordinates,
+        feeStructure: req.body.feeStructure,
+        images: req.body.images,
+        videos: req.body.videos,
+        teachers: []
+    })
+
+    const createdSchoolDefaultIcon = new School({
+        adminID: req.body.adminID,
+        schoolName: req.body.schoolName,
+        schoolIcon: defaultPic,
         schoolAddress: req.body.schoolAddress,
         contactNumber: req.body.contactNumber,
         schoolEmail: req.body.schoolEmail,
@@ -33,7 +55,11 @@ const createSchool = async (req, res, next) => {
     })
 
     try {
-        await createdSchool.save();
+        if(createdSchool.schoolIcon != null || createdSchool.schoolIcon != undefined || createdSchool.schoolIcon != ''){
+            await createdSchool.save();
+        }else{
+            await createdSchoolDefaultIcon.save();
+        }
         //res.status(200).send()
     } catch (err) {
         const error = new HttpError(

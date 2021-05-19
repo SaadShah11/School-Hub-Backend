@@ -1,5 +1,5 @@
 const express = require('express');
-const chat = require('../controllers/chats.js')
+const chat = require('../controllers/chat')
 //const file_upload = require('../middleware/file_upload')
 
 const router = express.Router();

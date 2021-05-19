@@ -1,7 +1,5 @@
 var axios = require("axios").default;
 
-
-
 const chat = async (req, res, next) => {
     const userID = req.body.userID
 
