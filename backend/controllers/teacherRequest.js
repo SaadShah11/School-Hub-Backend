@@ -48,8 +48,9 @@ const getTeacherRequests = async (req, res, next) => {
 const updateTeacherRequest = async (req, res, next) => {
     let newStatus = req.body.status;
     let schoolID = req.body.schoolID
-    console.log(newStatus)
-    console.log(schoolID)
+    console.log(req.body)
+    //console.log(newStatus)
+    //console.log(schoolID)
 
     const teacherRequestID = req.params.tid;
     console.log(teacherRequestID)
@@ -57,6 +58,8 @@ const updateTeacherRequest = async (req, res, next) => {
     let tteacherRequest;
     try {
         tteacherRequest = await teacherRequest.findById(teacherRequestID);
+        console.log("Teacher")
+        console.log(tteacherRequest)
     } catch (err) {
         const error = new HttpError(
             'Something went wrong, could not find teacher.',
@@ -68,6 +71,8 @@ const updateTeacherRequest = async (req, res, next) => {
     let school;
     try {
         school = await School.findById(schoolID);
+        console.log("School")
+        console.log(School)
     } catch (err) {
         const error = new HttpError(
             'Something went wrong, could not find School.',

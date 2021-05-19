@@ -66,8 +66,10 @@ const addReply = async (req, res, next) => {
     }
 
     //let allComments = review.comments;
-    if (newReply != null && newReply != undefined && newReply.text != undefined && newReply.username != undefined
-        && newReply.userID != undefined) {
+
+    // && newReply.text != undefined && newReply.username != undefined
+    //&& newReply.userID != undefined
+    if (newReply != null && newReply != undefined && newReply.text != undefined) {
         console.log(review.reply)
         review.reply.push(newReply)
         console.log("NewReply")
@@ -78,7 +80,7 @@ const addReply = async (req, res, next) => {
         await review.save();
     } catch (err) {
         const error = new HttpError(
-            'Something went wrong, could not update post.',
+            'Something went wrong, could not update review.',
             500
         );
         console.log(err)
