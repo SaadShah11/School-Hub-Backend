@@ -14,6 +14,7 @@ const groupRoutes = require("./routes/group")
 const superAdminRoutes = require("./routes/superAdmin")
 const teacherRequestRoutes = require("./routes/teacherRequest")
 const chatRequestRoutes = require("./routes/chats")
+const notificationRoutes = require("./routes/notifications")
 
 //const shopRoutes = require('./routes/shop.js')
 
@@ -79,6 +80,8 @@ app.use('/superAdmin', superAdminRoutes)
 app.use('/teacherRequest', teacherRequestRoutes)
 
 app.use('/chat', chatRequestRoutes)
+
+app.use('/notification', notificationRoutes)
 
 //When all middlewares start with same routes then we do this, only the routes starting
 //with the admin will enter this method
