@@ -148,7 +148,26 @@ const editSchool = async (req, res, next) => {
 
 }
 
+const deleteSchool = async (req, res, next) => {
+
+    const schoolID = req.params.sid;
+
+    let school;
+    try {
+        school = await School.deleteOne({ _id: schoolID });
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not delete School.',
+            500
+        );
+        return next(error);
+    }
+
+    res.status(200).json(school);
+}
+
 
 exports.createSchool = createSchool;
 exports.getSchool = getSchool;
 exports.editSchool = editSchool;
+exports.deleteSchool = deleteSchool;
