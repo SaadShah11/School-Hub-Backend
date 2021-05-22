@@ -11,6 +11,6 @@ router.post('/Create_School', school.createSchool)//, dashboard.createPost)
 
 router.patch('/Edit_School/:sid', school.editSchool)
 
-router.get('/delete_School/:sid', school.deleteSchool)
+router.post('/delete_School/:sid', school.deleteSchool)
 
 module.exports = router;

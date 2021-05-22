@@ -2,6 +2,7 @@
 const mongoose = require('mongoose');
 
 const School = require('../models/school');
+const Users = require('../models/users');
 const HttpError = require('../models/http-error');
 const { json } = require('body-parser');
 
@@ -151,6 +152,7 @@ const editSchool = async (req, res, next) => {
 const deleteSchool = async (req, res, next) => {
 
     const schoolID = req.params.sid;
+    const adminID = req.body.adminID
 
     let school;
     try {
@@ -158,6 +160,17 @@ const deleteSchool = async (req, res, next) => {
     } catch (err) {
         const error = new HttpError(
             'Something went wrong, could not delete School.',
+            500
+        );
+        return next(error);
+    }
+
+    let user;
+    try {
+        user = await User.deleteOne({ _id: adminID });
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not delete School Admin.',
             500
         );
         return next(error);
