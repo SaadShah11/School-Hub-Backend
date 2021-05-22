@@ -179,10 +179,29 @@ const addLikes = async (req, res, next) => {
 
 }
 
+const deletePost = async (req, res, next) => {
+
+    const postID = req.params.pid;
+
+    let post;
+    try {
+        post = await Post.deleteOne({ _id: postID });
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not delete Post.',
+            500
+        );
+        return next(error);
+    }
+
+    res.status(200).json(post);
+}
+
 exports.createPost = createPost;
 exports.getPosts = getPosts;
 exports.addComments = addComments;
 exports.addLikes = addLikes;
+exports.deletePost = deletePost
 
 /*
 Sample Data

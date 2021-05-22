@@ -14,4 +14,6 @@ router.patch('/updateComment/:pid', dashboard.addComments)
 
 router.patch('/updateLike/:pid', dashboard.addLikes)
 
+router.get('/deletePost/:pid', dashboard.deletePost)
+
 module.exports = router;
