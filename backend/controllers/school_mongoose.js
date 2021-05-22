@@ -102,7 +102,7 @@ const editSchool = async (req, res, next) => {
         school = await School.findById(schoolId);
     } catch (err) {
         const error = new HttpError(
-            'Something went wrong, could not update place.',
+            'Something went wrong, could not update school.',
             500
         );
         return next(error);
@@ -179,8 +179,48 @@ const deleteSchool = async (req, res, next) => {
     res.status(200).json(school);
 }
 
+const deleteTeacher = async (req, res, next) => {
+
+    const schoolID = req.params.sid;
+    console.log(schoolID)
+    const teacherID = req.body.teacherID
+    console.log(teacherID)
+
+    let school;
+    try {
+        school = await School.findOne({_id: schoolID});
+        console.log(school)
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not find School.',
+            500
+        );
+        return next(error);
+    }
+
+    let filteredArray = school.teachers.filter(function(value){ 
+        return value.teacherID != teacherID;
+    });
+
+    school.teachers = filteredArray;
+
+    try {
+        await school.save();
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not delete teacher.',
+            500
+        );
+        console.log(err)
+        return next(error);
+    }
+
+    res.status(200).json(school);
+}
+
 
 exports.createSchool = createSchool;
 exports.getSchool = getSchool;
 exports.editSchool = editSchool;
 exports.deleteSchool = deleteSchool;
+exports.deleteTeacher = deleteTeacher;

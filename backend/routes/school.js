@@ -13,4 +13,6 @@ router.patch('/Edit_School/:sid', school.editSchool)
 
 router.post('/delete_School/:sid', school.deleteSchool)
 
+router.post('/delete_Teacher/:sid', school.deleteTeacher)
+
 module.exports = router;
