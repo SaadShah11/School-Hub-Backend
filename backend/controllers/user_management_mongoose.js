@@ -387,6 +387,55 @@ const searchUser = async (req, res, next) => {
     }
 }
 
+const updateFollowing = async (req, res, next) => {
+
+    let newUser = req.body;
+
+    const uid = req.params.uid;
+
+    let user;
+    try {
+        user = await Users.findById(uid);
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not find user.',
+            500
+        );
+        return next(error);
+    }
+
+    let existingUser = false
+    user.following.map((item) => {
+            if (item.userID == newUser.userID) {
+                existingUser=true
+            }
+    })
+
+    if (newUser != undefined && newUser.userID != undefined && newUser.userID != null && existingUser==false) {
+        if (item.userID == newUser.userID) {
+            user.following.push(newUser)
+        }
+
+    }else{
+        console.log("Already following user")
+    }
+
+    try {
+        await user.save();
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not update user.',
+            500
+        );
+        console.log(err)
+        return next(error);
+    }
+
+    res.status(200).json(user);
+
+}
+
+
 exports.createUser = createUser;
 exports.getUser = getUser;
 exports.getSpecificUser = getSpecificUser;
@@ -395,3 +444,4 @@ exports.updateProfilePic = updateProfilePic;
 exports.updateProfile = updateProfile;
 exports.superAdminLogin = superAdminLogin
 exports.searchUser = searchUser
+exports.updateFollowing = updateFollowing

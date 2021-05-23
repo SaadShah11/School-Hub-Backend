@@ -7,7 +7,10 @@ const usersSchema = new mongoose.Schema({
     username: {type: String, required: true},
     phoneNumber: {type: String, required: true},
     password: {type: String, required: true},
-    profilePic: {type: String, required: true}
+    profilePic: {type: String, required: true},
+    following: [{
+        userID: { type: String, required: true }
+    }]
 });
 
 module.exports = mongoose.model('Users', usersSchema);

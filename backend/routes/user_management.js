@@ -18,6 +18,8 @@ router.patch('/userProfile/updateProfilePic/:uid', userManagement.updateProfileP
 
 router.patch('/userProfile/updateProfile/:uid', userManagement.updateProfile)
 
+router.patch('/userProfile/updateFollowing/:uid', userManagement.updateFollowing)
+
 router.post('/signup', userManagement.createUser)
 
 router.get('/userProfile/:uid', userManagement.getSpecificUser)
