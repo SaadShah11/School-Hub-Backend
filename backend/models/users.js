@@ -9,7 +9,8 @@ const usersSchema = new mongoose.Schema({
     password: {type: String, required: true},
     profilePic: {type: String, required: true},
     following: [{
-        userID: { type: String, required: true }
+        userID: { type: String, required: true },
+        follow: { type: Boolean, required: true }
     }]
 });
 

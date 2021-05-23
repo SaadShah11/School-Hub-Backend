@@ -390,6 +390,7 @@ const searchUser = async (req, res, next) => {
 const updateFollowing = async (req, res, next) => {
 
     let newUser = req.body;
+    let newFollow = req.body.follow
 
     const uid = req.params.uid;
 
@@ -404,21 +405,51 @@ const updateFollowing = async (req, res, next) => {
         return next(error);
     }
 
-    let existingUser = false
-    user.following.map((item) => {
-            if (item.userID == newUser.userID) {
-                existingUser=true
+    let allFollows = user.following
+
+    let existingUserFollows = allFollows.filter(followObject => followObject.userID === newUser.userID)
+
+    if (existingUserFollows.length != 0) {
+        let arrayIndex;
+        for (let i = 0; i <= allFollows.length; i++) {
+            if (allFollows[i].userID === newUser.userID) {
+                arrayIndex = i;
+                break;
             }
-    })
-
-    if (newUser != undefined && newUser.userID != undefined && newUser.userID != null && existingUser==false) {
-        if (item.userID == newUser.userID) {
-            user.following.push(newUser)
         }
+        user.following[arrayIndex].follow = newUser.follow
 
-    }else{
-        console.log("Already following user")
+        // newTotalLikes = post.likes.filter(likeObject => likeObject.like === true)
+        // post.totalLikes = newTotalLikes.length
+        // console.log("Likes")
+        // console.log(newTotalLikes.length)
+    } else {
+        if (newUser != null && newUser != undefined) {
+
+            user.following.push(newUser)
+
+            // newTotalLikes = post.likes.filter(likeObject => likeObject.like === true)
+            // post.totalLikes = newTotalLikes.length
+            // console.log("Likes")
+            // console.log(newTotalLikes.length)
+        }
     }
+
+    // let existingUser = false
+    // user.following.map((item) => {
+    //         if (item.userID == newUser.userID) {
+    //             existingUser=true
+    //         }
+    // })
+
+    // if (newUser != undefined && newUser.userID != undefined && newUser.userID != null && existingUser==false) {
+    //     if (item.userID == newUser.userID) {
+    //         user.following.push(newUser)
+    //     }
+
+    // }else{
+    //     console.log("Already following user")
+    // }
 
     try {
         await user.save();

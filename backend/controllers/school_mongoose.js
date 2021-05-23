@@ -92,6 +92,9 @@ const editSchool = async (req, res, next) => {
     let newIcon = req.body.schoolIcon;
     let newZipCode = req.body.zipCode;
     let schoolEmail = req.body.schoolEmail;
+    let newschoolType = req.body.schoolType;
+    let neweducationType = req.body.educationType;
+    let neweducationLevel = req.body.educationLevel;
 
     const schoolId = req.params.sid;
 
@@ -115,6 +118,9 @@ const editSchool = async (req, res, next) => {
     school.zipCode = newZipCode;
     school.schoolEmail = schoolEmail
     school.schoolIcon = newIcon
+    school.schoolType = newschoolType
+    school.educationType = neweducationType
+    school.educationLevel = neweducationLevel
 
     try {
         await school.save();
