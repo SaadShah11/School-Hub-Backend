@@ -80,7 +80,7 @@ const createUser = async (req, res, next) => {
         return next(error);
     }
 
-    res.status(201).json({ token: token,_id: createdUser._id, username: createdUser.username, email: createdUser.email, type: createdUser.type  })
+    res.status(201).json({ token: token, _id: createdUser._id, username: createdUser.username, email: createdUser.email, type: createdUser.type })
 
 };
 
@@ -141,7 +141,7 @@ const userLogin = async (req, res, next) => {
 
     console.log('Login Successful')
     //res.json({ message: "login successful" })
-    res.status(200).send(JSON.stringify({ _id: existingUser._id, username: existingUser.username, type: existingUser.type,profilePic:existingUser.profilePic,email:existingUser.email, token: token }));
+    res.status(200).send(JSON.stringify({ _id: existingUser._id, username: existingUser.username, type: existingUser.type, profilePic: existingUser.profilePic, email: existingUser.email, token: token }));
 }
 
 const getSpecificUser = async (req, res, next) => {
@@ -325,6 +325,52 @@ const superAdminLogin = async (req, res, next) => {
     res.status(200).send(JSON.stringify({ _id: existingUser._id, username: existingUser.username, token: token }));
 }
 
+const searchUser = async (req, res, next) => {
+
+    const type = req.body.type;
+
+    const name = req.params.sName;
+    console.log(name)
+    //var res = name.toLowerCase();
+    //let re = new RegExp(name);
+    //let re = `/{name}/i`;
+    let re = new RegExp(name, "i");
+    let query;
+    if (name == undefined) {
+        query = {}
+    } else {
+        query = { username: re };
+    }
+
+    console.log(query)
+    const users = await User.find(query).exec(); //Converting this into a promise using .exec()
+    console.log("Search Result")
+    console.log(users)
+
+    //------------------------Type------------------------------------
+    if (type != undefined && type != '') {
+        let filteredUsers = []
+        if (type == 'Student') {
+            filteredUsers = users.filter((item) => {
+                return item.type == 'Student'
+            })
+
+            return res.status(200).send(JSON.stringify(filteredUsers))
+        } else if (type == 'Teacher') {
+            filteredUsers = users.filter((item) => {
+                return item.type == 'Teacher'
+            })
+
+            return res.status(200).send(JSON.stringify(filteredUsers))
+        } else {
+            console.log("Type is wrong!")
+            return res.status(500).send(JSON.stringify({message:"Wrong type entered"}))
+        }
+    } else {
+        return res.status(200).send(JSON.stringify(users))
+    }
+}
+
 exports.createUser = createUser;
 exports.getUser = getUser;
 exports.getSpecificUser = getSpecificUser;
@@ -332,3 +378,4 @@ exports.userLogin = userLogin;
 exports.updateProfilePic = updateProfilePic;
 exports.updateProfile = updateProfile;
 exports.superAdminLogin = superAdminLogin
+exports.searchUser = searchUser

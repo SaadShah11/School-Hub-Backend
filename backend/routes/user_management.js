@@ -22,4 +22,6 @@ router.post('/signup', userManagement.createUser)
 
 router.get('/userProfile/:uid', userManagement.getSpecificUser)
 
+router.post('/searchUser/:sName', userManagement.searchUser)
+
 module.exports = router;
