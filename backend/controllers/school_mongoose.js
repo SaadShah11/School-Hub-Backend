@@ -95,6 +95,7 @@ const editSchool = async (req, res, next) => {
     let newschoolType = req.body.schoolType;
     let neweducationType = req.body.educationType;
     let neweducationLevel = req.body.educationLevel;
+    let newSchoolCoordinates = req.body.schoolCoordinates
 
     const schoolId = req.params.sid;
 
@@ -121,6 +122,7 @@ const editSchool = async (req, res, next) => {
     school.schoolType = newschoolType
     school.educationType = neweducationType
     school.educationLevel = neweducationLevel
+    school.schoolCoordinates = newSchoolCoordinates
 
     try {
         await school.save();
