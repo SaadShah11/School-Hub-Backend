@@ -327,6 +327,7 @@ const superAdminLogin = async (req, res, next) => {
 
 const searchUser = async (req, res, next) => {
 
+    console.log("inside SearchUser")
     const type = req.body.type;
 
     const name = req.params.sName;
@@ -336,22 +337,31 @@ const searchUser = async (req, res, next) => {
     //let re = `/{name}/i`;
     let re = new RegExp(name, "i");
     let query;
-    if (name == undefined) {
+    if (name == undefined || name == '') {
         query = {}
+        console.log("inside empty query")
     } else {
         query = { username: re };
     }
 
     console.log(query)
-    const usersArr = await User.find(query).exec(); //Converting this into a promise using .exec()
-    console.log("Search Result")
-    console.log(users)
 
-    let users = usersArr.filter((item)=>{
-        if(item.type == 'Teacher' || item.type == 'Student'){
-            return item
-        }
-    })
+    let users
+    try {
+        const usersArr = await Users.find(query).exec(); //Converting this into a promise using .exec()
+        console.log("Search Result")
+        //console.log(userArr)
+
+        users = usersArr.filter((item) => {
+            if (item.type == 'Teacher' || item.type == 'Student') {
+                return item
+            }
+        })
+    } catch (err) {
+        console.log("Error")
+        console.log(err)
+    }
+
 
     //------------------------Type------------------------------------
     if (type != undefined && type != '') {
@@ -370,7 +380,7 @@ const searchUser = async (req, res, next) => {
             return res.status(200).send(JSON.stringify(filteredUsers))
         } else {
             console.log("Type is wrong!")
-            return res.status(500).send(JSON.stringify({message:"Wrong type entered"}))
+            return res.status(500).send(JSON.stringify({ message: "Wrong type entered" }))
         }
     } else {
         return res.status(200).send(JSON.stringify(users))

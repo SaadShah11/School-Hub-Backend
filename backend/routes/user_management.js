@@ -24,4 +24,6 @@ router.get('/userProfile/:uid', userManagement.getSpecificUser)
 
 router.post('/searchUser/:sName', userManagement.searchUser)
 
+router.post('/searchUser/', userManagement.searchUser)
+
 module.exports = router;
