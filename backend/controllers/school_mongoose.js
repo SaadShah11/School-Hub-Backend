@@ -230,7 +230,7 @@ const deleteSchool = async (req, res, next) => {
 
     let user;
     try {
-        user = await User.deleteOne({ _id: adminID });
+        user = await Users.deleteOne({ _id: adminID });
     } catch (err) {
         const error = new HttpError(
             'Something went wrong, could not delete School Admin.',
