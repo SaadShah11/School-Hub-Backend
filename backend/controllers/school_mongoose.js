@@ -89,11 +89,9 @@ const editSchool = async (req, res, next) => {
     let newDecription = req.body.aboutSchool;
     let newAdderss = req.body.schoolAddress;
     let newContactNumber = req.body.contactNumber;
-    //let newImages = req.body.images;
+    let newIcon = req.body.schoolIcon;
     let newZipCode = req.body.zipCode;
     let schoolEmail = req.body.schoolEmail;
-    let newImages = req.body.images;
-    let newVideos = req.body.videos
 
     const schoolId = req.params.sid;
 
@@ -110,35 +108,100 @@ const editSchool = async (req, res, next) => {
 
     let allImages = school.images;
 
-    //console.log(newLikes)
-    //console.log('Break')
-    //post.comments = allComments.push(newComment)
-    //post.comments = newComment;
-
     school.schoolName = newName;
     school.aboutSchool = newDecription;
     school.schoolAddress = newAdderss;
     school.contactNumber = newContactNumber;
     school.zipCode = newZipCode;
     school.schoolEmail = schoolEmail
-
-    if (newImages != null) {
-        school.images.push(newImages)
-    }
-
-    if (newVideos != null ) {
-        //school.vidoes.push(newVideos)
-    }
-
-
-
-    //console.log(post.comments)
+    school.schoolIcon = newIcon
 
     try {
         await school.save();
     } catch (err) {
         const error = new HttpError(
-            'Something went wrong, could not update post.',
+            'Something went wrong, could not update School.',
+            500
+        );
+        console.log(err)
+        return next(error);
+    }
+
+    res.status(200).json(school);
+
+}
+
+const addNewSchoolImages = async (req, res, next) => {
+
+    let newImages = req.body.images;
+    let newVideos = req.body.videos
+
+    const schoolId = req.params.sid;
+
+    let school;
+    try {
+        school = await School.findById(schoolId);
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not find school.',
+            500
+        );
+        return next(error);
+    }
+
+    let allImages = school.images;
+
+    if (newImages != null || newImages != undefined) {
+        school.images.push(newImages)
+    }
+
+    if (newVideos != null || newVideos != undefined) {
+        school.vidoes = newVideos
+    }
+
+    try {
+        await school.save();
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not update School.',
+            500
+        );
+        console.log(err)
+        return next(error);
+    }
+
+    res.status(200).json(school);
+
+}
+
+const deleteImage = async (req, res, next) => {
+
+    let imageID = req.body.imageID;
+
+    const schoolId = req.params.sid;
+
+    let school;
+    try {
+        school = await School.findById(schoolId);
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not find school.',
+            500
+        );
+        return next(error);
+    }
+
+    let filteredArray = school.images.filter(function(value){ 
+        return value._id != imageID;
+    });
+
+    school.images = filteredArray;
+
+    try {
+        await school.save();
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not update School.',
             500
         );
         console.log(err)
@@ -224,3 +287,5 @@ exports.getSchool = getSchool;
 exports.editSchool = editSchool;
 exports.deleteSchool = deleteSchool;
 exports.deleteTeacher = deleteTeacher;
+exports.addNewSchoolImages = addNewSchoolImages;
+exports.deleteImage = deleteImage;

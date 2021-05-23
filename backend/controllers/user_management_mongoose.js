@@ -343,9 +343,15 @@ const searchUser = async (req, res, next) => {
     }
 
     console.log(query)
-    const users = await User.find(query).exec(); //Converting this into a promise using .exec()
+    const usersArr = await User.find(query).exec(); //Converting this into a promise using .exec()
     console.log("Search Result")
     console.log(users)
+
+    let users = usersArr.filter((item)=>{
+        if(item.type == 'Teacher' || item.type == 'Student'){
+            return item
+        }
+    })
 
     //------------------------Type------------------------------------
     if (type != undefined && type != '') {

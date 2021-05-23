@@ -15,4 +15,8 @@ router.post('/delete_School/:sid', school.deleteSchool)
 
 router.post('/delete_Teacher/:sid', school.deleteTeacher)
 
+router.post('/delete_Image/:sid', school.deleteImage)
+
+router.post('/addNewSchoolImages/:sid', school.addNewSchoolImages)
+
 module.exports = router;
