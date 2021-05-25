@@ -71,7 +71,7 @@ const createSchool = async (req, res, next) => {
         return next(error);
     }
 
-    res.status(201).json({ school: createdSchool.toObject({ getters: true }) });
+    res.status(201).json({ school: createdSchool.toObject({ getters: true}), schoolID: createdSchool._id });
     //const result = await createdPost.save();
     //res.json(result)
 };
@@ -142,7 +142,7 @@ const editSchool = async (req, res, next) => {
 const addNewSchoolImages = async (req, res, next) => {
 
     let newImages = req.body.images;
-    let newVideos = req.body.videos
+    let newVideos = req.body.videos;
 
     const schoolId = req.params.sid;
 

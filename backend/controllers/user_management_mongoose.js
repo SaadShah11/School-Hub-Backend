@@ -391,6 +391,8 @@ const updateFollowing = async (req, res, next) => {
 
     let newUser = req.body;
     let newFollow = req.body.follow
+    console.log("New User")
+    console.log(newUser)
 
     const uid = req.params.uid;
 
@@ -419,10 +421,6 @@ const updateFollowing = async (req, res, next) => {
         }
         user.following[arrayIndex].follow = newUser.follow
 
-        // newTotalLikes = post.likes.filter(likeObject => likeObject.like === true)
-        // post.totalLikes = newTotalLikes.length
-        // console.log("Likes")
-        // console.log(newTotalLikes.length)
     } else {
         if (newUser != null && newUser != undefined) {
 
