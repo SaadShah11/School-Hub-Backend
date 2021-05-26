@@ -14,7 +14,8 @@ const groupRoutes = require("./routes/group")
 const superAdminRoutes = require("./routes/superAdmin")
 const teacherRequestRoutes = require("./routes/teacherRequest")
 const chatRequestRoutes = require("./routes/chats")
-const notificationRoutes = require("./routes/notifications")
+//const notificationRoutes = require("./routes/notifications")
+const notificationRoutes = require("./routes/newNotification")
 
 //const shopRoutes = require('./routes/shop.js')
 

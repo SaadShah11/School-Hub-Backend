@@ -11,6 +11,11 @@ const usersSchema = new mongoose.Schema({
     following: [{
         userID: { type: String, required: true },
         follow: { type: Boolean, required: true }
+    }],
+    notification: [{
+        notificationType: { type: String, required: true },
+        userID: { type: String, required: true },
+        text: { type: Boolean, required: true }
     }]
 });
 
