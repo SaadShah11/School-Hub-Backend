@@ -119,11 +119,14 @@ const deleteNotification = async (req, res, next) => {
         return next(error);
     }
 
-    let finalArr = user.notification.filter((item)=>{
-        if(item._id != notificationID){
-            return item
-        }
-    })
+    let finalArr = []
+    if (user.notification != undefined) {
+        finalArr = user.notification.filter((item) => {
+            if (item._id != notificationID) {
+                return item
+            }
+        })
+    }
 
     user.notification = finalArr
 
