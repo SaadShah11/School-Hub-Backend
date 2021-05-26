@@ -12,8 +12,13 @@ const schoolSchema = new mongoose.Schema({
     zipCode: { type: Number, required: false },
     aboutSchool: { type: String, required: false },
     schoolType: { type: String, required: false },
-    educationLevel: { type: String, required: false },
+    educationLevel: {
+        primary: { type: String, required: false },
+        middle: { type: String, required: false },
+        higher: { type: String, required: false }
+    },
     educationType: { type: String, required: false },
+    schoolFB: { type: String, required: false },
     schoolCoordinates: {
         longitude: { type: String, required: true },
         latitude: { type: String, required: true }

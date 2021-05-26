@@ -29,6 +29,7 @@ const createSchool = async (req, res, next) => {
         schoolType: req.body.schoolType,
         educationLevel: req.body.educationLevel,
         educationType: req.body.educationType,
+        schoolFB: req.body.schoolFB,
         schoolCoordinates: req.body.schoolCoordinates,
         feeStructure: req.body.feeStructure,
         images: req.body.images,
@@ -48,6 +49,7 @@ const createSchool = async (req, res, next) => {
         schoolType: req.body.schoolType,
         educationLevel: req.body.educationLevel,
         educationType: req.body.educationType,
+        schoolFB: req.body.schoolFB,
         schoolCoordinates: req.body.schoolCoordinates,
         feeStructure: req.body.feeStructure,
         images: req.body.images,
@@ -59,7 +61,9 @@ const createSchool = async (req, res, next) => {
         if(createdSchool.schoolIcon != null || createdSchool.schoolIcon != undefined || createdSchool.schoolIcon != ''){
             await createdSchool.save();
         }else{
-            await createdSchoolDefaultIcon.save();
+            console.log("Images")
+            console.log(createdSchool.images)
+            await createdSchoolDefaultIcon.save(); 
         }
         //res.status(200).send()
     } catch (err) {
