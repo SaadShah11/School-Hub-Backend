@@ -17,6 +17,8 @@ mongoose.connect(
 })
 
 const createSchool = async (req, res, next) => {
+    // console.log("Request")
+    // console.log(req)
     const createdSchool = new School({
         adminID: req.body.adminID,
         schoolName: req.body.schoolName,
@@ -58,7 +60,7 @@ const createSchool = async (req, res, next) => {
     })
 
     try {
-        if(createdSchool.schoolIcon != null || createdSchool.schoolIcon != undefined || createdSchool.schoolIcon != ''){
+        if(createdSchool.schoolIcon != null && createdSchool.schoolIcon != undefined && createdSchool.schoolIcon != ''){
             await createdSchool.save();
         }else{
             console.log("Images")

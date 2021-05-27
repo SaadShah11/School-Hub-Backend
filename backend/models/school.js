@@ -13,9 +13,9 @@ const schoolSchema = new mongoose.Schema({
     aboutSchool: { type: String, required: false },
     schoolType: { type: String, required: false },
     educationLevel: {
-        primary: { type: String, required: false },
-        middle: { type: String, required: false },
-        higher: { type: String, required: false }
+        primary: { type: Boolean, required: false },
+        middle: { type: Boolean, required: false },
+        higher: { type: Boolean, required: false }
     },
     educationType: { type: String, required: false },
     schoolFB: { type: String, required: false },
