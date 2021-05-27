@@ -77,6 +77,25 @@ const createSchool = async (req, res, next) => {
         return next(error);
     }
 
+    const fetch = require('node-fetch');
+
+    const url = 'https://api-us.cometchat.io/v2.0/users';
+    const options = {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            appId: '3372201956af684',
+            apiKey: '242dc31a39e2d691c1947cd65a0432cae5018b8e',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ uid: createdSchool._id, name: createdSchool.schoolName })
+    };
+
+    fetch(url, options)
+        .then(res => res.json())
+        .then(json => console.log(json))
+        .catch(err => console.error('error:' + err));
+
     res.status(201).json({ school: createdSchool.toObject({ getters: true }), schoolID: createdSchool._id });
     //const result = await createdPost.save();
     //res.json(result)
