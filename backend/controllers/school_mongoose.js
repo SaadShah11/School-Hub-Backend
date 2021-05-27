@@ -17,8 +17,8 @@ mongoose.connect(
 })
 
 const createSchool = async (req, res, next) => {
-    // console.log("Request")
-    // console.log(req)
+    console.log("Request")
+    console.log(req.body)
     const createdSchool = new School({
         adminID: req.body.adminID,
         schoolName: req.body.schoolName,

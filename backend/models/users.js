@@ -13,10 +13,11 @@ const usersSchema = new mongoose.Schema({
         follow: { type: Boolean, required: true }
     }],
     notification: [{
-        notificationType: { type: String, required: true },
-        userID: { type: String, required: true },
-        text: { type: String, required: true }
-    }]
+        notificationType: { type: String, required: false },
+        userID: { type: String, required: false },
+        text: { type: String, required: false }
+    }],
+    deviceToken: {type: String, required: false},
 });
 
 module.exports = mongoose.model('Users', usersSchema);

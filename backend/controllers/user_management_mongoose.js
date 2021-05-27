@@ -22,7 +22,8 @@ const createUser = async (req, res, next) => {
         username: req.body.username,
         phoneNumber: req.body.phoneNumber,
         password: req.body.password,
-        profilePic: defaultPic
+        profilePic: defaultPic,
+        deviceToken: ''
     })
 
     let existingUser;
@@ -92,6 +93,7 @@ const getUser = async (req, res, next) => {
 
 const userLogin = async (req, res, next) => {
     const { type, email, password } = req.body;
+    let deviceToken = req.body.deviceToken
 
     let existingUser;
     try {
@@ -139,9 +141,24 @@ const userLogin = async (req, res, next) => {
         return next(error);
     }
 
+    if(deviceToken != undefined || deviceToken!= ''){
+        existingUser.deviceToken = deviceToken
+
+        try {
+            await existingUser.save();
+        } catch (err) {
+            const error = new HttpError(
+                'Something went wrong, could not update user.',
+                500
+            );
+            console.log(err)
+            return next(error);
+        }
+    }
+
     console.log('Login Successful')
     //res.json({ message: "login successful" })
-    res.status(200).send(JSON.stringify({ _id: existingUser._id, username: existingUser.username, type: existingUser.type, profilePic: existingUser.profilePic, email: existingUser.email, token: token }));
+    res.status(200).send(JSON.stringify({ _id: existingUser._id, username: existingUser.username, type: existingUser.type, profilePic: existingUser.profilePic, email: existingUser.email, token: token, deviceToken: existingUser.deviceToken }));
 }
 
 const getSpecificUser = async (req, res, next) => {
