@@ -22,7 +22,7 @@ const createStream = async (req, res, next) => {
         endTime: req.body.endTime,
         currentTime: req.body.currentTime,
         description: req.body.description,
-        privacy: req.body.privacy,
+        privacy: "Public",
         status: "Pending",
         resourceURI: "",
         isLive: false
