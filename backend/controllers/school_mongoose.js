@@ -60,12 +60,12 @@ const createSchool = async (req, res, next) => {
     })
 
     try {
-        if(createdSchool.schoolIcon != null && createdSchool.schoolIcon != undefined && createdSchool.schoolIcon != ''){
+        if (createdSchool.schoolIcon != null && createdSchool.schoolIcon != undefined && createdSchool.schoolIcon != '') {
             await createdSchool.save();
-        }else{
+        } else {
             console.log("Images")
             console.log(createdSchool.images)
-            await createdSchoolDefaultIcon.save(); 
+            await createdSchoolDefaultIcon.save();
         }
         //res.status(200).send()
     } catch (err) {
@@ -77,7 +77,7 @@ const createSchool = async (req, res, next) => {
         return next(error);
     }
 
-    res.status(201).json({ school: createdSchool.toObject({ getters: true}), schoolID: createdSchool._id });
+    res.status(201).json({ school: createdSchool.toObject({ getters: true }), schoolID: createdSchool._id });
     //const result = await createdPost.save();
     //res.json(result)
 };
@@ -116,7 +116,7 @@ const editSchool = async (req, res, next) => {
         return next(error);
     }
 
-    let allImages = school.images;
+    //let allImages = school.images;
 
     school.schoolName = newName;
     school.aboutSchool = newDecription;
@@ -127,8 +127,15 @@ const editSchool = async (req, res, next) => {
     school.schoolIcon = newIcon
     school.schoolType = newschoolType
     school.educationType = neweducationType
-    school.educationLevel = neweducationLevel
-    school.schoolCoordinates = newSchoolCoordinates
+
+    if (neweducationLevel != undefined) {
+        school.educationLevel = neweducationLevel
+    }
+
+    if (newSchoolCoordinates != undefined) {
+        school.schoolCoordinates = newSchoolCoordinates
+    }
+
 
     try {
         await school.save();
@@ -205,7 +212,7 @@ const deleteImage = async (req, res, next) => {
         return next(error);
     }
 
-    let filteredArray = school.images.filter(function(value){ 
+    let filteredArray = school.images.filter(function (value) {
         return value._id != imageID;
     });
 
@@ -265,7 +272,7 @@ const deleteTeacher = async (req, res, next) => {
 
     let school;
     try {
-        school = await School.findOne({_id: schoolID});
+        school = await School.findOne({ _id: schoolID });
         console.log(school)
     } catch (err) {
         const error = new HttpError(
@@ -275,7 +282,7 @@ const deleteTeacher = async (req, res, next) => {
         return next(error);
     }
 
-    let filteredArray = school.teachers.filter(function(value){ 
+    let filteredArray = school.teachers.filter(function (value) {
         return value.teacherID != teacherID;
     });
 
