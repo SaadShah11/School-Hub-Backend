@@ -22,8 +22,7 @@ const createUser = async (req, res, next) => {
         username: req.body.username,
         phoneNumber: req.body.phoneNumber,
         password: req.body.password,
-        profilePic: defaultPic,
-        deviceToken: ''
+        profilePic: defaultPic
     })
 
     let existingUser;

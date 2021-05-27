@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 
 const Users = require('../models/users');
 const HttpError = require('../models/http-error');
+var admin = require("firebase-admin")
+var serviceAccount = require("../admin_private_key.json")
 
 mongoose.connect(
     'mongodb+srv://saad:saad@schoolhub.zmtqr.mongodb.net/users?retryWrites=true&w=majority'
@@ -13,57 +15,6 @@ mongoose.connect(
 })
 
 
-const getUser = async (req, res, next) => {
-    const user = await Users.find().exec(); //Converting this into a promise using .exec()
-    res.json(user);
-    res.status(200).send(JSON.stringify(user));
-}
-
-const getSpecificUser = async (req, res, next) => {
-    const uid = req.params.uid;
-    console.log(uid)
-
-    var query = { _id: uid };
-    console.log(query)
-
-    const user = await Users.find(query).exec();
-    //user = await Users.findById(uid);
-    res.json(user);
-    res.status(200).send(JSON.stringify(user));
-}
-
-const updateProfilePic = async (req, res, next) => {
-    let newProfilePic = req.body.profilePic;
-
-    const uid = req.params.uid;
-
-    let user;
-    try {
-        user = await Users.findById(uid);
-    } catch (err) {
-        const error = new HttpError(
-            'Something went wrong, could not update user.',
-            500
-        );
-        return next(error);
-    }
-
-    user.profilePic = newProfilePic
-
-    try {
-        await user.save();
-    } catch (err) {
-        const error = new HttpError(
-            'Something went wrong, could not update user.',
-            500
-        );
-        console.log(err)
-        return next(error);
-    }
-
-    res.status(200).json(user);
-
-}
 
 const updateNotification = async (req, res, next) => {
 
@@ -71,6 +22,7 @@ const updateNotification = async (req, res, next) => {
     console.log("Notification:")
     console.log(newNotification)
     const uid = req.params.uid;
+    console.log(uid)
 
     let user;
     try {
@@ -80,11 +32,41 @@ const updateNotification = async (req, res, next) => {
             'Something went wrong, could not find user.',
             500
         );
+        console.log(err)
         return next(error);
     }
 
     if (newNotification != undefined) {
         user.notification.push(newNotification)
+    }
+
+    if (user.deviceToken != undefined || user.deviceToken != '') {
+        admin.initializeApp({
+            credential: admin.credential.cert(serviceAccount),
+            databaseURL: "https://okay-945dc.firebaseio.com"
+        });
+
+        var regToken = user.deviceToken;
+
+        var payload = {
+            data: {
+                title: newNotification.notificationType,
+                text: newNotification.text
+            }
+        };
+
+        var options = {
+            priority: "high",
+            timeToLive: 60 * 60 * 24
+        };
+
+        admin.messaging().sendToDevice(regToken, payload, options)
+            .then(function (response) {
+                console.log("Success: ", response);
+            })
+            .catch(function (error) {
+                console.log("Error: ", error);
+            });
     }
 
     try {
@@ -101,7 +83,6 @@ const updateNotification = async (req, res, next) => {
     res.status(200).json(user);
 
 }
-
 
 const deleteNotification = async (req, res, next) => {
 
