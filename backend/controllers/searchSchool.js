@@ -171,7 +171,7 @@ const getAllSchools = async (req, res, next) => {
 }
 
 const getSpecificSchool = async (req, res, next) => {
-
+    console.log("Inside getSpecificSchool")
     const id = req.params.sid;
     console.log(id)
 

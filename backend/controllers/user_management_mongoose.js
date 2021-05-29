@@ -140,7 +140,9 @@ const userLogin = async (req, res, next) => {
         return next(error);
     }
 
-    if(deviceToken != undefined || deviceToken!= ''){
+    if(deviceToken != undefined){
+        console.log("device Token")
+        console.log(deviceToken)
         existingUser.deviceToken = deviceToken
 
         try {

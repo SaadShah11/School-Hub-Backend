@@ -11,6 +11,8 @@ router.post('/Create_School', school.createSchool)//, dashboard.createPost)
 
 router.patch('/Edit_School/:sid', school.editSchool)
 
+router.patch('/Edit_SchoolFee/:sid', school.editSchoolFee)
+
 router.post('/delete_School/:sid', school.deleteSchool)
 
 router.post('/delete_Teacher/:sid', school.deleteTeacher)

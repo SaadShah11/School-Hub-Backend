@@ -195,7 +195,7 @@ const addNewSchoolImages = async (req, res, next) => {
         school.images.push(newImages)
     }
 
-    if (newVideos != null || newVideos != undefined) {
+    if (newVideos != null || newVideos != undefined || newVideos != '') {
         school.vidoes = newVideos
     }
 
@@ -213,6 +213,44 @@ const addNewSchoolImages = async (req, res, next) => {
     res.status(200).json(school);
 
 }
+
+
+const editSchoolFee = async (req, res, next) => {
+
+    let newFee = req.body;
+
+    const schoolId = req.params.sid;
+
+    let school;
+    try {
+        school = await School.findById(schoolId);
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not find school.',
+            500
+        );
+        return next(error);
+    }
+
+    if (newFee != undefined) {
+        school.feeStructure = newFee;
+    }
+
+    try {
+        await school.save();
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not update School.',
+            500
+        );
+        console.log(err)
+        return next(error);
+    }
+
+    res.status(200).json(school);
+
+}
+
 
 const deleteImage = async (req, res, next) => {
 
@@ -325,6 +363,7 @@ const deleteTeacher = async (req, res, next) => {
 exports.createSchool = createSchool;
 exports.getSchool = getSchool;
 exports.editSchool = editSchool;
+exports.editSchoolFee = editSchoolFee;
 exports.deleteSchool = deleteSchool;
 exports.deleteTeacher = deleteTeacher;
 exports.addNewSchoolImages = addNewSchoolImages;
