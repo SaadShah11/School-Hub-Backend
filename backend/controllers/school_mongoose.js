@@ -36,7 +36,9 @@ const createSchool = async (req, res, next) => {
         feeStructure: req.body.feeStructure,
         images: req.body.images,
         videos: req.body.videos,
-        teachers: []
+        teachers: [],
+        totalRating: 1,
+        ARmodel:''
     })
 
     const createdSchoolDefaultIcon = new School({
@@ -56,11 +58,13 @@ const createSchool = async (req, res, next) => {
         feeStructure: req.body.feeStructure,
         images: req.body.images,
         videos: req.body.videos,
-        teachers: []
+        teachers: [],
+        totalRating: 1,
+        ARmodel: ''
     })
 
     try {
-        if (createdSchool.schoolIcon != null && createdSchool.schoolIcon != undefined && createdSchool.schoolIcon != '') {
+        if (createdSchool.schoolIcon != undefined) {
             await createdSchool.save();
         } else {
             console.log("Images")

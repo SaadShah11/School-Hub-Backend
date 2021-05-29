@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const Review = require('../models/review');
+const School = require('../models/school');
 const HttpError = require('../models/http-error');
 const { json } = require('body-parser');
 
@@ -23,6 +24,21 @@ const createReview = async (req, res, next) => {
         rating: req.body.rating,
         reply: []
     })
+
+    // let school;
+    // try {
+    //     school = await School.findById(createdReview.schoolID);
+    // } catch (err) {
+    //     const error = new HttpError(
+    //         'Something went wrong, could not find school.',
+    //         500
+    //     );
+    //     return next(error);
+    // }
+    // let previousRatings = school.totalRating
+    // let newRating = (previousRatings+createdReview.rating)/2
+    // console.log("New Rating")
+    // console.log(newRating)
 
     try {
         const result = await createdReview.save();

@@ -73,7 +73,7 @@ const getSchool = async (req, res, next) => {
     }
     if (educationLevel != undefined) {
         //queryString=queryString+" "+educationLevel
-        query.educationLevel = educationLevel
+        // query.educationLevel = educationLevel
     }
     if (educationType != undefined) {
         //queryString=queryString+" "+educationType
@@ -166,7 +166,7 @@ const getSchool = async (req, res, next) => {
 const getAllSchools = async (req, res, next) => {
     const school = await School.find().exec(); //Converting this into a promise using .exec()
     console.log("Empty Search Result")
-    console.log(school)
+    // console.log(school)
     res.status(200).send(JSON.stringify(school))
 }
 

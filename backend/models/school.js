@@ -44,7 +44,9 @@ const schoolSchema = new mongoose.Schema({
         teacherID: { type: String, required: false },
         teacherEmail: { type: String, required: false },
         teacherProfilePic: { type: String, required: false }
-    }]
+    }],
+    ARmodel: { type: String, required: false },
+    totalRating: { type: Number, required: false },
 })
 
 module.exports = mongoose.model('school', schoolSchema)

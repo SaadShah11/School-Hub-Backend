@@ -51,6 +51,7 @@ const createUser = async (req, res, next) => {
         //Number signifies difficulty level of hashing
         hashedPassword = await bcrypt.hash(createdUser.password, 12)
         createdUser.password = hashedPassword
+        console.log("Hashed Password")
         console.log(hashedPassword)
         const result = await createdUser.save();
         console.log(typeof createdUser._id)
