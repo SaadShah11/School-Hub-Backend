@@ -38,7 +38,7 @@ const createSchool = async (req, res, next) => {
         videos: req.body.videos,
         teachers: [],
         totalRating: 1,
-        ARmodel:''
+        ARmodel: ''
     })
 
     const createdSchoolDefaultIcon = new School({
@@ -179,6 +179,7 @@ const addNewSchoolImages = async (req, res, next) => {
 
     let newImages = req.body.images;
     let newVideos = req.body.videos;
+    console.log(newVideos)
 
     const schoolId = req.params.sid;
 
@@ -193,17 +194,22 @@ const addNewSchoolImages = async (req, res, next) => {
         return next(error);
     }
 
-    let allImages = school.images;
+    //let allImages = school.images;
 
-    if (newImages != null || newImages != undefined) {
+    if (newImages.path != null || newImages.path != undefined) {
+        console.log("Uploading Image")
         school.images.push(newImages)
     }
 
-    if (newVideos != null || newVideos != undefined || newVideos != '') {
-        school.vidoes = newVideos
-    }
+    // if (newVideos != null || newVideos != undefined || newVideos != '') {
+    console.log("uploading Video")
+    console.log(newVideos)
+    school.videos = newVideos
+    // }
 
     try {
+        //console.log("School")
+        //console.log(school)
         await school.save();
     } catch (err) {
         const error = new HttpError(

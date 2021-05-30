@@ -41,10 +41,16 @@ const updateNotification = async (req, res, next) => {
     }
 
     if (user.deviceToken != undefined || user.deviceToken != '') {
-        admin.initializeApp({
-            credential: admin.credential.cert(serviceAccount),
-            databaseURL: "https://okay-945dc.firebaseio.com"
-        });
+        // admin.initializeApp({
+        //     credential: admin.credential.cert(serviceAccount),
+        //     databaseURL: "https://okay-945dc.firebaseio.com"
+        // });
+        if (admin.apps.length === 0) {
+            admin.initializeApp({
+                credential: admin.credential.cert(serviceAccount),
+                databaseURL: "https://okay-945dc.firebaseio.com"
+            });
+        }
 
         var regToken = user.deviceToken;
 
