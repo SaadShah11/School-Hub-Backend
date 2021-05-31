@@ -25,31 +25,38 @@ const createReview = async (req, res, next) => {
         reply: []
     })
 
-    // let school;
-    // try {
-    //     school = await School.findById(createdReview.schoolID);
-    // } catch (err) {
-    //     const error = new HttpError(
-    //         'Something went wrong, could not find school.',
-    //         500
-    //     );
-    //     return next(error);
-    // }
-    // let previousRatings = school.totalRating
-    // let newRating = (previousRatings+createdReview.rating)/2
-    // console.log("New Rating")
-    // console.log(newRating)
-
+    let school;
     try {
-        const result = await createdReview.save();
-        res.status(200).send()
-        res.json(result)
+        school = await School.findById(createdReview.schoolID);
+
+        let previousRatings = school.totalRating
+        console.log("Previous rating")
+        console.log(previousRatings)
+        let newRating = (previousRatings + createdReview.rating) / 2
+        console.log("New Rating")
+        console.log(newRating)
+
+        school.totalRating = newRating
+
+        try {
+            await school.save();
+            const result = await createdReview.save();
+            res.status(200).send()
+            res.json(result)
+        } catch (err) {
+            const error = new HttpError(
+                'Review failed, please try again later.',
+                500
+            );
+            console.log(err)
+            return next(error);
+        }
+
     } catch (err) {
         const error = new HttpError(
-            'Review failed, please try again later.',
+            'Something went wrong, could not find school.',
             500
         );
-        console.log(err)
         return next(error);
     }
 

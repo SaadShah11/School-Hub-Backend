@@ -1,13 +1,13 @@
 
 const mongoose = require('mongoose');
 
-const Users = require('../models/users');
+const Notification = require('../models/users');
 const HttpError = require('../models/http-error');
 var admin = require("firebase-admin")
 var serviceAccount = require("../admin_private_key.json")
 
 mongoose.connect(
-    'mongodb+srv://saad:saad@schoolhub.zmtqr.mongodb.net/users?retryWrites=true&w=majority'
+    'mongodb+srv://saad:saad@schoolhub.zmtqr.mongodb.net/notification?retryWrites=true&w=majority'
 ).then(() => {
     console.log("DB connected")
 }).catch(() => {
@@ -24,12 +24,12 @@ const updateNotification = async (req, res, next) => {
     const uid = req.params.uid;
     console.log(uid)
 
-    let user;
+    let notification;
     try {
-        user = await Users.findById(uid);
+        notification = await Notification.findById(uid);
     } catch (err) {
         const error = new HttpError(
-            'Something went wrong, could not find user.',
+            'Something went wrong, could not find notification.',
             500
         );
         console.log(err)
@@ -37,10 +37,10 @@ const updateNotification = async (req, res, next) => {
     }
 
     if (newNotification != undefined) {
-        user.notification.push(newNotification)
+        notification.notification.push(newNotification)
     }
 
-    if (user.deviceToken != undefined || user.deviceToken != '') {
+    if (notification.deviceToken != undefined || notification.deviceToken != '') {
         // admin.initializeApp({
         //     credential: admin.credential.cert(serviceAccount),
         //     databaseURL: "https://okay-945dc.firebaseio.com"
@@ -52,7 +52,7 @@ const updateNotification = async (req, res, next) => {
             });
         }
 
-        var regToken = user.deviceToken;
+        var regToken = notification.deviceToken;
 
         var payload = {
             data: {
@@ -76,17 +76,17 @@ const updateNotification = async (req, res, next) => {
     }
 
     try {
-        await user.save();
+        await notification.save();
     } catch (err) {
         const error = new HttpError(
-            'Something went wrong, could not update user.',
+            'Something went wrong, could not update notification.',
             500
         );
         console.log(err)
         return next(error);
     }
 
-    res.status(200).json(user);
+    res.status(200).json(notification);
 
 }
 
@@ -95,33 +95,34 @@ const deleteNotification = async (req, res, next) => {
     const uid = req.params.uid;
     const notificationID = req.body.notificationID
 
-    let user;
+    let notification;
     try {
-        user = await Users.findById(uid);
+        //notification = await Notification.findById(uid);
+        notification = await Notification.find().exec();
     } catch (err) {
         const error = new HttpError(
-            'Something went wrong, could not find user.',
+            'Something went wrong, could not find notification.',
             500
         );
         return next(error);
     }
 
     let finalArr = []
-    if (user.notification != undefined) {
-        finalArr = user.notification.filter((item) => {
+    if (notification != undefined) {
+        finalArr = notification.filter((item) => {
             if (item._id != notificationID) {
                 return item
             }
         })
     }
 
-    user.notification = finalArr
+    notification = finalArr
 
     try {
-        await user.save();
+        await notification.save();
     } catch (err) {
         const error = new HttpError(
-            'Something went wrong, could not update user.',
+            'Something went wrong, could not delete notification.',
             500
         );
         console.log(err)
