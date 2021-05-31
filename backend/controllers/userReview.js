@@ -90,7 +90,7 @@ const addReply = async (req, res, next) => {
 
     // && newReply.text != undefined && newReply.username != undefined
     // && newReply.userID != undefined
-    if (newReply != null && newReply != undefined) {
+    if (newReply != null || newReply != undefined) {
         review.reply.push(newReply)
         console.log(newReply)
     }
@@ -99,7 +99,7 @@ const addReply = async (req, res, next) => {
         await review.save();
     } catch (err) {
         const error = new HttpError(
-            'Something went wrong, could not update post.',
+            'Something went wrong, could not update Review.',
             500
         );
         console.log(err)
