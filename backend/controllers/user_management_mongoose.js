@@ -160,7 +160,7 @@ const userLogin = async (req, res, next) => {
 
     console.log('Login Successful')
     //res.json({ message: "login successful" })
-    res.status(200).send(JSON.stringify({ _id: existingUser._id, username: existingUser.username, type: existingUser.type, profilePic: existingUser.profilePic, email: existingUser.email, token: token, deviceToken: existingUser.deviceToken }));
+    res.status(200).send(JSON.stringify({ _id: existingUser._id, username: existingUser.username, type: existingUser.type, profilePic: existingUser.profilePic, email: existingUser.email, token: token, following: existingUser.following, deviceToken: existingUser.deviceToken }));
 }
 
 const getSpecificUser = async (req, res, next) => {

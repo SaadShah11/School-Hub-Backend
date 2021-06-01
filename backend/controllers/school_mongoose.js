@@ -125,6 +125,7 @@ const editSchool = async (req, res, next) => {
     let neweducationType = req.body.educationType;
     let neweducationLevel = req.body.educationLevel;
     let newSchoolCoordinates = req.body.schoolCoordinates
+    let newSchoolVideo = req.body.videos
 
     const schoolId = req.params.sid;
 
@@ -150,6 +151,7 @@ const editSchool = async (req, res, next) => {
     school.schoolIcon = newIcon
     school.schoolType = newschoolType
     school.educationType = neweducationType
+    school.videos = newSchoolVideo
 
     if (neweducationLevel != undefined) {
         school.educationLevel = neweducationLevel
@@ -178,8 +180,8 @@ const editSchool = async (req, res, next) => {
 const addNewSchoolImages = async (req, res, next) => {
 
     let newImages = req.body.images;
-    let newVideos = req.body.videos;
-    console.log(newVideos)
+    let newIcon = req.body.schoolIcon;
+    console.log(newIcon)
 
     const schoolId = req.params.sid;
 
@@ -201,10 +203,15 @@ const addNewSchoolImages = async (req, res, next) => {
         school.images.push(newImages)
     }
 
+    if (newIcon != undefined) {
+        console.log("Uploading icon")
+        school.schoolIcon = newIcon
+    }
+
     // if (newVideos != null || newVideos != undefined || newVideos != '') {
-    console.log("uploading Video")
-    console.log(newVideos)
-    school.videos = newVideos
+    // console.log("uploading Video")
+    // console.log(newIcon)
+    // school.videos = newIcon
     // }
 
     try {
